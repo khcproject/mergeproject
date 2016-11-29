@@ -24,6 +24,7 @@ DROP SEQUENCE SEQ_notice_n_num;
 DROP SEQUENCE SEQ_pr_reply_pr_num;
 DROP SEQUENCE SEQ_pub_p_num;
 DROP SEQUENCE SEQ_question_q_num;
+DROP SEQUENCE SEQ_question_qr_num; 
 DROP SEQUENCE SEQ_reservation_res_num;
 DROP SEQUENCE SEQ_r_social_rs_num;
 DROP SEQUENCE SEQ_social_s_num;
