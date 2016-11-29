@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="event">
+
+<select id="count" resultType="int">
+select count(*) from event
+</select>
+
+<select id="evn" resultType="dto.EventDTO" parameterType="dto.PageDTO">
+<![CDATA[
+			select b.*  from(
+  			select rownum as rm, a.*   from(
+      		select * from event order by e_num desc)a)b  
+ 			where b.rm>=#{startRow} and b.rm<=#{endRow} 
+		]]>
+</select>
+<insert id="insert" parameterType="dto.EventDTO">
+insert into event 
+values(#{id},SEQ_event_e_num.nextval,#{e_title},#{e_contents},0,#{e_upload,jdbcType=VARCHAR},#{e_uploads,jdbcType=VARCHAR},to_char(sysdate,'YYYY"년"MM"월"DD"일"'))
+</insert>
+
+<!-- 쿠폰  -->
+<insert id="coupon" parameterType="dto.CouponDTO">
+insert into coupon
+values(SEQ_coupon_c_num.nextval,#{id},'50%할인',#{c_coupon},to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N')
+</insert>
+
+<insert id="coupon2" parameterType="dto.CouponDTO">
+insert into coupon
+values(SEQ_coupon_c_num.nextval,#{id},'30%할인',#{c_coupon},to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N')
+</insert>
+
+<insert id="coupon3" parameterType="dto.CouponDTO">
+insert into coupon
+values(SEQ_coupon_c_num.nextval,#{id},'10%할인',#{c_coupon},to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N')
+</insert>
+
+
+<select id="ccontents" parameterType="int" resultType="dto.CouponDTO">
+select * from coupon where c_num=#{num}
+
+</select>
+<!-- 쿠폰끝 -->
+
+<select id="contents" parameterType="int" resultType="dto.EventDTO">
+select * from event where e_num=#{num}
+</select>
+
+<update id="viewcnt" parameterType="int">
+update event set e_viewcnt=e_viewcnt+1 where e_num=#{num}
+</update>
+
+<!-- 수정 -->
+<update id="update" parameterType="dto.EventDTO">
+update event set e_contents=#{e_contents},e_title=#{e_title}
+where e_num=#{e_num}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+delete from event where e_num=#{num}
+</delete>
+
+<select id="meminfo" parameterType="string" resultType="dto.MemDTO">
+select * from members where id=#{id}
+</select>
+
+</mapper>

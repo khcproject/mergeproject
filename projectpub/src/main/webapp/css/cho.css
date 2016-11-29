@@ -1,0 +1,174 @@
+#background {
+	background-color: black;
+	width: 100%;
+}
+
+#all {
+	
+	background-color: yellow;
+	width: 1100px;
+	margin:100px auto;
+	position: relative;
+}
+
+#bxpic {
+	background-color:;
+	width: 660px;
+	height: 400px;
+	position: relative;
+}
+
+#reservtion {
+	background-color: green;
+	width: 40%;
+	height: 400px;
+	position: absolute;
+	left: 660px;
+	top: 0px;
+}
+
+#content {
+	background-color: navy;
+	width: 100%;
+	height: 400px;
+	position: relative;
+}
+
+#map {
+	background-color: purple;
+	width: 100%;
+	height: 400px;
+	position: relative;
+}
+
+#footer, #header {
+	background-color: orange;
+	width: 100%;
+	height: 100px;
+}
+
+#comment {
+	width: 100%;
+	height: 400px;
+	position: relative;
+}
+
+#slide_banner {
+	display: block;
+	width: 520px;
+	height: 120px;
+	margin: 0 auto;
+}
+
+#photo {
+	display: block;
+	width: 510px;
+	hight: 300px;
+	margin: 10px auto;
+}
+
+#scomment {
+	background-color: #0000ff;
+	width: 1000px;
+	higet: 200px;
+	margin: 0 auto;
+}
+
+#reply_commit {
+	width: 150px;
+	height: 55px;
+	float: leeft;
+}
+
+#re_content {
+	display: inline;
+	width: 80%;
+	height: 50px;
+	font-size: 12pt;
+	color: #ff0000;
+	font-weight: bold;
+	float: leeft;
+}
+
+#reply_tool {
+	border: 1px black solid;
+}
+
+#reply_id {
+	display: inline-block;
+	width: 150px;
+	height: 30px;
+}
+
+#reply_content {
+	display: inline-block;
+	width: 700px;
+	height: 30px;
+}
+
+.replybox {
+	display: inline-block;
+	width: 50px;
+	height: 30px;
+}
+
+.replydelbox {
+	display: inline-block;
+	width: 50px;
+	height: 30px;
+}
+
+ul li {
+	float: left;
+	list-style-type: none;
+	margin-left: 10px;
+}
+
+#slide1 {
+	margin-left: 0px
+}
+
+.starview {
+	width: 180px;
+}
+
+.score{
+	float: left;
+}
+
+.star_input {
+	width: 150px;
+	height: 30px;
+	border: 1px solid black;
+	display: inline-block;
+}
+.score{
+	display: inline;
+}
+
+div span.star {
+	width: 15px;
+	height: 30px;
+	display: block;
+	float: left;
+}
+
+.star_input {
+	background-image: url('../images/star0.png');
+	background-size: 30px, 30px;
+}
+
+.over-left {
+	background-image: url('../images/left.png');
+	background-size: 15px, 30px;
+}
+
+.over-right {
+	background-image: url('../images/right.png');
+	background-size: 15px, 30px;
+}
+
+.over2 {
+	background-color: red;
+	border-right: 1px solid black;
+}

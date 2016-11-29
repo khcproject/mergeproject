@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+	<!-- main 템플릿 연결 -->
+	<definition name="main" template="/WEB-INF/view/tiles/layout.jsp">
+		<put-attribute name="title" value="The Pub" />
+		<put-attribute name="header" value="/WEB-INF/view/tiles/header.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/main.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/view/tiles/footer.jsp" />
+	</definition>
+
+
+	<!-- 문조 부분 템플릿 연결 -->
+	<definition name="social" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/social.jsp" />
+	</definition>
+
+	<!-- 종선 부분 템플릿 연결 -->
+
+	<definition name="mypage" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/mypage.jsp" />
+	</definition>
+	<definition name="memberupdate" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/memberupdate.jsp" />
+	</definition>
+	<definition name="beforemempw" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/beforemempw.jsp" />
+	</definition>
+	<definition name="leaveus" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/leaveus.jsp" />
+	</definition>
+	<definition name="joinseller" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/joinseller.jsp" />
+	</definition>
+	<definition name="joinpub" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/joinpub.jsp" />
+	</definition>
+	<definition name="reservlist" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/reservlist.jsp" />
+	</definition>
+	<definition name="updatepub" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/updatepub.jsp" />
+	</definition>
+
+	<!-- 경호 부분 템플릿 연결 -->
+
+	<definition name="login" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/login.jsp" />
+	</definition>
+	<definition name="reservation" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/reservation.jsp" />
+	</definition>
+
+	<!-- 장성일 부분 템플릿 연결 -->
+	<definition name="eupdate" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/eupdate.jsp" />
+	</definition>
+	<definition name="event" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/event.jsp" />
+	</definition>
+	<definition name="eview" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/eview.jsp" />
+	</definition>
+	<definition name="ewrite" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/ewrite.jsp" />
+	</definition>
+	<definition name="notice" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/notice.jsp" />
+	</definition>
+	<definition name="noupdate" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/noupdate.jsp" />
+	</definition>
+	<definition name="noview" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/noview.jsp" />
+	</definition>
+	<definition name="nowrite" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/nowrite.jsp" />
+	</definition>
+	<definition name="qna" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/qna.jsp" />
+	</definition>
+	<definition name="qnaupdate" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/qnaupdate.jsp" />
+	</definition>
+	<definition name="qnaview" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/qnaview.jsp" />
+	</definition>
+	<definition name="qnawrite" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/qnawrite.jsp" />
+	</definition>
+
+<!-- 성기범 부분 템플릿 연결 -->
+
+<definition name="lookat" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/lookat.jsp" />
+	</definition>
+	<definition name="manager" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/manager.jsp" />
+	</definition>
+	<definition name="pubpre" extends="main">
+		<put-attribute name="body" value="/WEB-INF/view/pubpre.jsp" />
+	</definition>
+
+
+
+
+
+
+
+</tiles-definitions>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="aaa">
+
+	<!-- 전체 펍 가져오기 -->
+	<select id="count" resultType="int">
+		select count(*) from pub where p_pub_chk='Y'
+	</select>
+	
+	<!-- 소비자 전체 인원 -->
+	<select id="concount" resultType="int">
+		select count(*) from members where allow_chk = 'R' or allow_chk='N'
+	</select>
+	
+	<!-- 판매자 수 -->
+	<select id="memycount" resultType="int">
+		select count(*) from members where allow_chk = 'Y'
+	</select>
+	
+	<!-- 펍저장하기 -->
+	<insert id="save" parameterType="dto.PubDTO">
+		insert into pub
+		values(SEQ_pub_p_num.nextval,'test18',#{p_mupload},#{p_supload},#{p_title},#{p_contents},#{p_address},#{p_maxpeople},'Y')
+	</insert>
+
+	<!-- 랭킹별 사진 가져오기 -->
+	<select id="get" resultType="dto.PubDTO">
+		select a.*, b.s_stars from PUB a, STARS b where a.p_num = b.p_num order by
+		b.s_stars desc
+	</select>
+
+	<!-- 전체 펍 4개씩 가져오기 -->
+	<select id="list" parameterType="dto.PubPageDTO" resultType="dto.PubDTO">
+		<!-- <>때문에 그대로 사용하기위해 -->
+        <![CDATA[
+       select b.*
+from( select rownum as rm, a.*   
+from(select * from pub where p_pub_chk='Y' order by p_num desc)a)b  
+ where b.rm>=#{startRow} and b.rm<=#{endRow}
+        ]]>
+	</select>
+
+	<!-- 검색한 펍 가져오기 -->
+	<select id="search" parameterType="String" resultType="int">
+		select count(*) from pub
+		where (p_address like '%'||#{search}||'%' or p_title like '%'||#{search}||'%') and p_pub_chk='Y'
+	</select>
+
+	<!-- 검색한 펍 4개씩 가져오기 -->
+	<select id="searchlist" parameterType="dto.PubPageDTO"
+		resultType="dto.PubDTO">
+	     <![CDATA[
+	    select b.*
+from( select rownum as rm, a.*   
+from(select * from pub where (p_address like '%'||#{search}||'%' or p_title like '%'||#{search}||'%') and p_pub_chk='Y' order by p_num desc)a)b  
+ where b.rm>=#{startRow} and b.rm<=#{endRow}
+ ]]>
+	</select>
+
+	<select id="managero" parameterType="String">
+		update members
+		set allow_chk = 'Y'
+		where id=#{id}
+
+	</select>
+
+	<select id="managerc" parameterType="String">
+		update members
+		set allow_chk = 'N'
+		where id=#{id}
+	</select>
+
+	<select id="pok" parameterType="String">
+		update pub
+		set p_pub_chk='Y'
+		where id=#{id}
+	</select>
+
+	<select id="pcan" parameterType="String">
+		update pub
+		set p_pub_chk='N'
+		where id=#{id}
+	</select>
+
+	<select id="dates" resultType="String">
+		select dates
+		from members
+	</select>
+	
+	<select id="memtotal" resultType="int">
+	    select count(*) from members
+	</select>
+	
+	<select id="mwcount" resultType="String">
+		select sex from members
+	</select>
+	
+	<select id="birth" resultType="String">
+		select birth from members	    
+	</select>
+	
+	<!-- 판매자 등업 인원 -->
+	<select id="memrcount" resultType="int">
+		select count(*) from MEMBERS where allow_chk='R'
+	</select>
+	
+	<!-- 판매자 등업 목록 -->
+	<select id="memr" resultType="dto.MemDTO">
+	    <![CDATA[
+	    select b.*
+from(select rownum as rm, a.*
+from(select * from members where allow_chk='R')a)b
+where b.rm<=9
+	    ]]>
+	</select>
+	
+	<!-- 펍 등록대기 갯수 -->
+	<select id="suprcount" resultType="int">
+		select count(*) from pub where p_pub_chk='R'
+	</select>
+
+	<!-- 관리자 : Pub 신청 현황 -->
+	<resultMap type="dto.PubDTO" id="mypage_admin_pub"
+		autoMapping="false">
+		<result column="p_num" property="p_num" />
+		<result column="id" property="id" />
+		<result column="p_mupload" property="p_mupload" />
+		<result column="p_supload" property="p_supload" />
+		<result column="p_title" property="p_title" />
+		<result column="p_contents" property="p_contents" />
+		<result column="p_address" property="p_address" />
+		<result column="p_maxpeople" property="p_maxpeople" />
+		<result column="p_pub_chk" property="p_pub_chk" />
+		<!-- <result column="p_addr_post" property="p_addr_post"/> -->
+		<association property="members" javaType="dto.MemDTO">
+			<result column="name" property="name" />
+		</association>
+	</resultMap>
+
+	<select id="admin_pubjoin" resultMap="mypage_admin_pub">
+ <![CDATA[
+select rownum, a.*
+from(select p.*,m.name from pub p, members m where p.id=m.id and p.p_pub_chk='R')a
+where rownum<=9
+ ]]>
+	</select>
+	
+	<!-- 펍 수정 정보 -->
+<resultMap type="dto.MemDTO" id="mempub" autoMapping="false">
+<result column="id" property="id"/>
+<result column="pw" property="pw"/>
+<result column="phone" property="phone"/>
+<result column="email" property="email"/>
+<result column="email_agree" property="email_agree"/>
+<result column="sex" property="sex"/>
+<result column="name" property="name"/>
+<result column="birth" property="birth"/>
+<result column="userchk" property="userchk"/>
+<result column="face" property="face"/>
+<result column="allow_chk" property="allow_chk"/>
+<result column="login_time" property="login_time"/>
+<result column="saupja_num" property="saupja_num"/>
+<result column="dates" property="dates"/>
+<collection property="pub" javaType="java.util.List" ofType="dto.PubDTO" autoMapping="false">
+<result column="p_num" property="p_num"/>
+<result column="ppid" property="id"/>
+<result column="p_mupload" property="p_mupload"/>
+<result column="p_supload" property="p_supload"/>
+<result column="p_title" property="p_title"/>
+<result column="p_contents" property="p_contents"/>
+<result column="p_address" property="p_address"/>
+<result column="p_maxpeople" property="p_maxpeople"/>
+<result column="p_pub_chk" property="p_pub_chk"/>
+<result column="p_addr_post" property="p_addr_post"/>
+</collection>
+</resultMap>
+
+<select id="mempubinfo" parameterType="dto.MemDTO" resultMap="mempub">
+select m.* , p.p_num,p.id as ppid , p.p_mupload, p.p_supload, p.p_title, p.p_contents, p.p_address, p.p_maxpeople, p.p_pub_chk,p.p_addr_post
+from members m, pub p
+where m.id=p.id(+) and m.id=#{id}
+</select>
+<!-- END 펍 수정 정보 -->
+	
+</mapper>

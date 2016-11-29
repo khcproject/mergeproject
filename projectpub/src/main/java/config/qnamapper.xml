@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qna">
+
+<select id="count" resultType="int">
+select count(*) from question
+</select>
+
+<select id="count2" parameterType="string" resultType="int">
+select count(*) from question where q_title like '%'||#{search}||'%' or q_contents like '%'||#{search}||'%'
+</select>
+
+<select id="count3" parameterType="string" resultType="int">
+select count(*) from question where id like '%'||#{search}||'%'
+</select>
+
+
+<select id="list" resultType="dto.QuestionDTO" parameterType="dto.PageDTO">
+<![CDATA[
+			select b.*  from(
+  			select rownum as rm, a.*   from(
+      		select * from question order by qr_num desc)a)b  
+ 			where b.rm>=#{startRow} and b.rm<=#{endRow} 
+		]]>
+</select>
+
+<select id="searchlist" resultType="dto.QuestionDTO" parameterType="hashmap">
+<![CDATA[
+			select b.*  from(
+  			select rownum as rm, a.*   from(
+      		select * from question where q_title like '%'||lower(#{search})||'%' or q_contents like '%'||lower(#{search})||'%' order by qr_num  )a)b  
+ 			where b.rm>=#{pv.startRow} and b.rm<=#{pv.endRow} 
+		]]>
+</select>
+<select id="searchlist2" resultType="dto.QuestionDTO" parameterType="hashmap">
+<![CDATA[
+			select b.*  from(
+  			select rownum as rm, a.*   from(
+      		select * from question where id like '%'||#{search}||'%' order by qr_num  )a)b  
+ 			where b.rm>=#{pv.startRow} and b.rm<=#{pv.endRow} 
+		]]>
+</select>
+
+
+<select id="content" parameterType="int" resultType="dto.QuestionDTO">
+select * from question where q_num=#{num}
+</select>
+
+<update id="viewcnt" parameterType="int">
+update question set q_viewcnt=q_viewcnt+1 where q_num=#{q_num}
+</update>
+
+<update id="stepcount" parameterType="dto.QuestionDTO">
+<![CDATA[
+		update question set qr_step=qr_step+1 where qr_num=#{qr_num} and qr_step>#{qr_step}
+	]]>	
+</update>
+
+<insert id="insert" parameterType="dto.QuestionDTO">
+insert into question 
+values(#{id},SEQ_question_q_num.nextval,#{q_title},#{q_contents},0,#{q_upload,jdbcType=VARCHAR},to_char(sysdate,'YYYY"년"MM"월"DD"일"'),
+<choose>
+<when test="qr_num==0">
+SEQ_question_qr_num.nextval
+</when>
+<otherwise>
+#{qr_num}
+</otherwise>
+</choose>
+,#{qr_step},#{qr_level})
+</insert>
+
+<update id="update" parameterType="dto.QuestionDTO">
+update question set q_contents=#{q_contents},q_title=#{q_title}
+where q_num=#{q_num}
+</update>
+
+<delete id="delete" parameterType="int">
+delete from question where q_num=#{num}
+</delete>
+
+
+
+</mapper>

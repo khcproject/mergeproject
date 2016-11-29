@@ -1,0 +1,103 @@
+
+
+.full{
+	width: 780px;
+	height: 500px;
+	margin: auto;
+	background-color: red;
+}
+
+.sidemenu{
+	width:150px;
+	height:497px;
+	float:left;
+	background-color: white;
+}
+
+.mainmenu{
+	width: 630px;
+	height: 497px;
+	display:inline-block;
+	background-color: skyblue;
+}
+
+.common_btn{
+	text-align: center;
+	height:50px;
+	line-height: 50px;
+}
+.head_ment{
+	height: 50px;
+	line-height:50px;
+}
+.head_button{
+	height: 29px;
+}
+#write_btn{
+	position:absolute;
+	right: 5px;
+}
+.page_line{
+	height: 30px;
+	line-height : 30px;
+	margin-left: 280px;
+}
+
+.search_div{
+	height: 40px;
+	margin-left: 150px;
+}
+.writebtndiv{
+	height: 30px;
+}
+
+#writeok_btn{
+	position : absolute;
+	right: 180px;
+}
+
+#writecancle_btn{
+	position : absolute;
+	right: 135px;
+}
+
+#gotomsg_btn{
+	position : absolute;
+	left:257px;
+}
+
+#sendgotomsg_btn{
+	position : absolute;
+	left:257px;
+}
+
+#delmesg_btn{
+	position : absolute;
+	right: 206px;
+}
+
+#senddelmesg_btn{
+	position : absolute;
+	right: 133px;
+}
+
+#rewrite_btn{
+	position : absolute;
+	right: 133px;
+}
+
+.infodiv{
+	height: 30px;
+}
+
+#sendname{
+	position:relative;
+	left:12px;
+	float: left;
+}
+
+#dateprint{
+	display: inline;
+	position:absolute;	
+	right: 135px;	
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="login">
+	<!-- 회원가입 -->
+	<insert id="memInsert" parameterType="dto.MemDTO">
+		insert into members
+		values(#{id},#{pw},#{phone},#{email},'N',#{sex},#{name},#{birth},
+		'C',#{face,jdbcType=VARCHAR},'N',to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),
+		#{saupja_num,jdbcType=VARCHAR},to_char(sysdate,'YYYY"-"MM"-"DD'))
+	</insert>
+
+	<!-- 아이디 체크 -->
+	<select id="idchk" parameterType="dto.MemDTO" resultType="String">
+		select
+		id from MEMBERS where id
+		= #{id}
+	</select>
+
+	<!-- 로그인 -->
+	<select id="log" parameterType="dto.MemDTO" resultType="dto.MemDTO">
+		select
+		* from members where id=#{id} and pw = #{pw}
+	</select>
+</mapper>

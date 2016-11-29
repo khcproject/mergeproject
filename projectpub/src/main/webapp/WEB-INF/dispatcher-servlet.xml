@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+
+	<!-- jSON 어노테이션 설정시 필요 -->
+	<mvc:annotation-driven>
+
+	</mvc:annotation-driven>
+
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin://@127.0.0.1:1521:xe" />
+		<property name="username" value="hr" />
+		<property name="password" value="a1234" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations">
+			<list>
+				<!-- 성기범 -->
+				<value>classpath*:config/mapper.xml</value>
+				<!-- 유종선 -->
+				<value>classpath*:config/mypagemapper.xml</value>
+				<!-- 조경호 -->
+				<value>classpath*:config/ReservationMapper.xml</value>
+				<value>classpath*:config/LoginMapper.xml</value>
+				<!-- 장성일 -->
+				<value>classpath*:config/noticemapper.xml</value>
+				<value>classpath*:config/qnamapper.xml</value>
+				<value>classpath*:config/eventmapper.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" index="0" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*Process" rollback-for="java.lang.Exception" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- [6] 트랜잭션 설정 -->
+	<aop:config>
+		<aop:advisor advice-ref="txAdvice" pointcut="execution(* service.*.*(..))" />
+	</aop:config>
+
+	<!-- DAO 빈 선언 -->
+	<!-- 성기범 -->
+	<bean id="bdao" class="dao.PubDaoImp">
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+
+	<!--유종선 -->
+	<bean id="mdao" class="dao.MyPage_DaoImp">
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+
+	<!-- 조경호 -->
+	<bean id="rdao" class="dao.ReservationDaoImp">
+		<property name="sqlSession" ref="sqlSession"></property>
+	</bean>
+
+	<bean id="ldao" class="dao.LoginlDaoImp">
+		<property name="sqlSession" ref="sqlSession"></property>
+	</bean>
+
+	<!-- 장성일 -->
+	<bean id="nodao" class="dao.NoticeDaoImp">
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+
+
+
+
+
+
+
+
+
+	<!-- Service 빈 선언 -->
+	<!-- 성기범 -->
+	<bean id="service" class="service.PubServiceImp">
+		<property name="dao" ref="bdao" />
+	</bean>
+
+	<!-- 유종선 -->
+	<bean id="mservice" class="service.Mypage_ServiceImp">
+		<property name="mdao" ref="mdao" />
+	</bean>
+
+	<!--조경호 -->
+	<bean id="resservice" class="service.ReservationServiceImp">
+		<property name="dao" ref="rdao" />
+	</bean>
+
+	<bean id="loginservice" class="service.LoginServiceImp">
+		<property name="dao" ref="ldao" />
+	</bean>
+	<!-- 장성일 -->
+	<bean id="noservice" class="service.NoticeServiceImp">
+		<property name="dao" ref="nodao" />
+	</bean>
+
+
+
+
+
+
+
+	<!-- Controller 빈 선언 -->
+	<!-- 성기범 -->
+	<bean class="Controller.PubController">
+		<property name="service" ref="service" />
+	</bean>
+
+	<!-- 유종선 -->
+	<bean class="Controller.Mypage_Controller">
+		<property name="mservice" ref="mservice" />
+	</bean>
+
+	<!-- 조경호 -->
+	<bean class="Controller.ReservationController">
+		<property name="service" ref="resservice" />
+	</bean>
+	<bean class="Controller.LoginController">
+		<property name="service" ref="loginservice" />
+	</bean>
+
+	<!-- 장성일 -->
+	<bean class="Controller.NoticeController">
+		<property name="service" ref="noservice" />
+	</bean>
+
+	<!-- 공통 -->
+	<bean class="Controller.CommandController" />
+
+
+
+
+	<!-- 파일 업로드 시작 -->
+	<!-- 첨부 파일의 임시기억장치 경로 설정 -->
+	<bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">
+		<!-- <constructor-arg value="c:/temp"/> -->
+		<constructor-arg value="./src/main/webapp/files/" />
+	</bean>
+
+	<!-- 첨부파일을 임시기억저장소에 저장한다. -->
+	<!-- multipartResolver는 반드시 똑같이 지정해야한다. 내부에서 이 이름으로 참조함 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- uploadTempDir관련 클래스가 없을시 메이븐에서 fileupload 검색하여 다운로드 apache Commons 
+			Fileupload -->
+		<property name="uploadTempDir" ref="uploadDirResource" />
+		<!-- 파일 크기 제한. 여기서 하지말고 클라이언트에서 처리하길바람. -->
+		<!-- <property name="maxUploadSize" value="1000"/> -->
+	</bean>
+	<!-- 파일 업로드 끝 -->
+
+	<!-- InternalResourceViewResolver는 항상 우선순위값을 낮게 설정한다. 높게 설정하면 검색이 중간에 멈추는 
+		경우도 있다 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="2" />
+	</bean>
+
+	<!-- tile -->
+	<!-- view -->
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.tiles2.TilesView" />
+		<property name="order" value="1" />
+	</bean>
+
+	<bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/tiles.xml</value>
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

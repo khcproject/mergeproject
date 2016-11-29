@@ -1,0 +1,126 @@
+@CHARSET "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#main {
+	width: 100%;
+	background-color: black;
+}
+
+#header {
+	width: 100%;
+	height: 100px;
+	/* background-color: green; */
+	position: static;
+}
+
+#content {
+	width: 1100px;
+	height: 1700px;
+	position: relative;
+	margin: auto;
+}
+li{
+	list-style: none;
+}
+
+#footer {
+	width: 100%;
+	height: 50px;
+	bottom: 0px;
+	/* background-color: green; */
+}
+
+#rank1 {
+	width: 100%;
+	height: 600px;
+	background-color: white;
+	border: 1px solid red;
+	box-sizing: border-box;
+}
+
+#rankrest {
+	width: 100%;
+	height: 200px;
+	/* background-color: green; */
+	position: relative;
+	border: 1px solid red;
+	box-sizing: border-box;
+}
+
+img {
+	vertical-align: top;
+}
+
+#search {
+	width: 100%;
+	height: 50px;
+	border: 1px solid red;
+	box-sizing: border-box;
+	background-color: white;
+}
+
+#rec {
+	width: 100%;
+	height: 850px;
+	/* background-color: green; */
+	border: 1px solid red;
+	box-sizing: border-box;
+}
+#search-box{
+	width: 500px;
+	height: 48px;
+	/* background-color: yellow; */
+}
+#search-con{
+	width: 250px;
+	height: 24px;
+	/* background-color: red; */
+	margin: 10px 10px 10px 5px;
+}
+#rec-con{
+	width: 100%;
+	height: 799px;
+	border-bottom:1px solid red;
+	box-sizing: border-box;
+	/* background-color: white; */
+	padding: 25px;
+}
+#rec-num{
+	width: 100%;
+	height: 48px;
+	/* background-color: blue; */
+	background-color : white;
+	text-align: center;
+}
+#rec-num a{
+
+	font-size: 30px;
+	font-style: oblique; 
+	text-decoration: none;
+	
+}
+#test{
+	width: 474px;
+	height: 274px;
+	background-color: white;
+	float: left;
+	margin: 25px;
+	padding: 25px;
+}
+
+#search-box{
+	float: left;
+}
+#test img{
+	float: left;
+}
+
+#test a{
+	float: left;
+	margin-left: 30px;
+	margin-bottom: 50px;
+}

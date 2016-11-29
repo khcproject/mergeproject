@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mypage">
+<!-- insert member -->
+<insert id="testins" parameterType="dto.MemDTO">
+insert all into members values(#{id},#{pw},#{phone},#{email},#{email_agree},#{sex},#{name},#{birth},#{userchk},#{face},#{allow_chk},to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),#{saupja_num,jdbcType=VARCHAR})
+	select * from dual
+</insert>
+
+<!-- 회원정보와 쿠폰 -->
+<resultMap type="dto.MemDTO" id="mypage_coupon" autoMapping="false">
+<result column="id" property="id"/>
+<result column="pw" property="pw"/>
+<result column="phone" property="phone"/>
+<result column="email" property="email"/>
+<result column="email_agree" property="email_agree"/>
+<result column="sex" property="sex"/>
+<result column="name" property="name"/>
+<result column="birth" property="birth"/>
+<result column="userchk" property="userchk"/>
+<result column="face" property="face"/>
+<result column="allow_chk" property="allow_chk"/>
+<result column="login_time" property="login_time"/>
+<result column="saupja_num" property="saupja_num"/>
+<collection property="coupon" javaType="java.util.List" ofType="dto.CouponDTO" autoMapping="false">
+<result column="ccid" property="id"/>
+<result column="c_num" property="c_num"/>
+<result column="c_contents" property="c_contents"/>
+<result column="c_coupon" property="c_coupon"/>
+<result column="c_date" property="c_date"/>
+<result column="c_use" property="c_use"/>
+<association property="reservation" javaType="dto.ReservationDTO" >
+<result column="rpnum" property="p_num"/>
+<association property="pub" javaType="dto.PubDTO" >
+<result column="p_title" property="p_title"/>
+</association>
+</association>
+</collection>
+</resultMap>
+
+<select id="coupon_view" parameterType="dto.MemDTO" resultMap="mypage_coupon">
+select m.*, c.c_num,c.id as ccid, c.c_contents, c.c_coupon, c.c_date,c.c_use, r.p_num as rpnum,p.p_title
+from(select * from members where id=#{id})m , coupon c, reservation r, pub p
+where m.id=c.id(+) and c.c_num=r.c_num(+) and r.p_num = p.p_num(+)
+</select>	
+<!-- END 회원정보와 쿠폰 -->
+
+<!-- 구매자 예약리스트 -->
+<resultMap type="dto.MemDTO"  id="mypage_cus_reserv" autoMapping="false">
+<result column="id" property="id"/>
+<result column="pw" property="pw"/>
+<result column="phone" property="phone"/>
+<result column="email" property="email"/>
+<result column="email_agree" property="email_agree"/>
+<result column="sex" property="sex"/>
+<result column="name" property="name"/>
+<result column="birth" property="birth"/>
+<result column="userchk" property="userchk"/>
+<result column="face" property="face"/>
+<result column="allow_chk" property="allow_chk"/>
+<result column="login_time" property="login_time"/>
+<result column="saupja_num" property="saupja_num"/>
+<collection property="reservation" javaType="java.util.List" ofType="dto.ReservationDTO" autoMapping="false">
+<result column="res_num" property="res_num"/>
+<result column="p_num" property="p_num"/>
+<result column="rrid" property="id"/>
+<result column="res_people" property="res_people"/>
+<result column="res_date" property="res_date"/>
+<result column="res_time" property="res_time"/>
+<result column="res_concheck" property="res_concheck"/>
+<result column="res_sellcheck" property="res_sellcheck"/>
+<result column="c_num" property="c_num"/>
+<association property="pub" javaType="dto.PubDTO" >
+<result column="p_title" property="p_title"/>
+</association>
+</collection>
+</resultMap>
+
+<select id="cusreserv" parameterType="dto.MemDTO" resultMap="mypage_cus_reserv">
+ <![CDATA[
+select rownum, a.*
+from(select m.*, r.res_num, r.p_num, r.id as rrid ,r.res_people, r.res_date, r.res_concheck, r.res_sellcheck, r.res_time,r.c_num,p.p_title
+from members m, reservation r, pub p
+where m.id=r.id(+) and r.p_num=p.p_num(+) and m.id=#{id}
+order by r.res_num)a
+where rownum<=4
+ ]]> 
+</select>
+<!-- END 구매자 예약리스트 -->
+
+<!-- 판매자 예약리스트 -->
+<resultMap type="dto.PubDTO"  id="mypage_sell_reserv" autoMapping="false">
+<result column="p_num" property="p_num"/>
+<result column="id" property="id"/>
+<result column="p_mupload" property="p_mupload"/>
+<result column="p_supload" property="p_supload"/>
+<result column="p_title" property="p_title"/>
+<result column="p_contents" property="p_contents"/>
+<result column="p_address" property="p_address"/>
+<result column="p_maxpeople" property="p_maxpeople"/>
+<result column="p_pub_chk" property="p_pub_chk"/>
+<result column="p_addr_post" property="p_addr_post"/>
+<collection property="reservation" javaType="java.util.List" ofType="dto.ReservationDTO" autoMapping="false">
+<result column="res_num" property="res_num"/>
+<result column="rpnum" property="p_num"/>
+<result column="rrid" property="id"/>
+<result column="res_people" property="res_people"/>
+<result column="res_date" property="res_date"/>
+<result column="res_time" property="res_time"/>
+<result column="res_concheck" property="res_concheck"/>
+<result column="res_sellcheck" property="res_sellcheck"/>
+<result column="c_num" property="c_num"/>
+<association property="members" javaType="dto.MemDTO" >
+ <result column="name" property="name"/>
+ </association>
+ <association property="coupon" javaType="dto.CouponDTO" >
+ <result column="c_contents" property="c_contents"/>
+ </association>
+</collection>
+</resultMap>
+
+<select id="sellreserv" parameterType="dto.PubDTO" resultMap="mypage_sell_reserv">
+ <![CDATA[
+select b.*
+from(select rownum as rm,a.*
+from(select p.*, r.res_num,r.p_num as rpnum , r.id as rrid, r.res_people,r.res_date,r.res_concheck,r.res_sellcheck,r.res_time,r.c_num,m.name,c.c_use,c.c_contents
+from(select * from pub where id=#{id})p,  reservation r, members m, coupon c
+where p.p_num=r.p_num(+) and  r.id=m.id(+) and r.c_num=c.c_num(+)
+order by r.res_num desc)a)b
+where b.rm<=4 
+ ]]> 
+</select>
+<!-- END 판매자 예약리스트 -->	
+
+<!-- 관리자 : 판매자 등업 신청 현황 -->
+<select id="admin_selljoin" resultType="dto.MemDTO">
+ <![CDATA[
+select rownum, a.*
+from(select * from members where allow_chk='R'
+order by id)a 
+where rownum<=4
+ ]]> 
+</select>
+<!-- END 관리자 : 판매자 등업 신청 현황 -->
+
+<!-- 관리자 : Pub 신청 현황 -->
+<resultMap type="dto.PubDTO" id="mypage_admin_pub" autoMapping="false">
+<result column="p_num" property="p_num"/>
+<result column="id" property="id"/>
+<result column="p_mupload" property="p_mupload"/>
+<result column="p_supload" property="p_supload"/>
+<result column="p_title" property="p_title"/>
+<result column="p_contents" property="p_contents"/>
+<result column="p_address" property="p_address"/>
+<result column="p_maxpeople" property="p_maxpeople"/>
+<result column="p_pub_chk" property="p_pub_chk"/>
+<result column="p_addr_post" property="p_addr_post"/>
+<association property="members" javaType="dto.MemDTO" >
+ <result column="name" property="name"/>
+ </association>
+</resultMap>
+
+<select id="admin_pubjoin" resultMap="mypage_admin_pub">
+ <![CDATA[
+select rownum, a.*
+from(select p.*,m.name from pub p, members m where p.id=m.id and p.p_pub_chk='N')a
+where rownum<=4
+ ]]> 
+</select>
+<!-- END 관리자 : Pub 신청 현황 -->
+
+<!-- 구매자 예약리스트 삭제 -->
+<delete id="cusdelreserv" parameterType="dto.ReservationDTO">
+delete from reservation where id=#{id} and res_num=#{res_num}
+</delete>
+
+<!-- 판매자 예약리스트 수락 -->
+<update id="ablereserv" parameterType="dto.ReservationDTO">
+update reservation set res_sellcheck='Y' where res_num=#{res_num}
+</update>
+<update id="ablecoupon" parameterType="dto.ReservationDTO">
+update coupon set c_use='Y' where c_num=#{c_num}
+</update>
+<!-- END 판매자 예약리스트 수락 -->
+
+<!-- 판매자 예약리스트 거부 -->
+<update id="disablereserv" parameterType="dto.ReservationDTO">
+update reservation set res_sellcheck='C' where res_num=#{res_num}
+</update>
+<!-- END 판매자 예약리스트 거부 -->
+
+<!-- 어드민 : 판매자 신청 수락 --> 
+<update id="ablesell" parameterType="dto.MemDTO">
+update members set userchk='S', allow_chk='Y' where id=#{id}
+</update>
+<insert id="ableselltalk" parameterType="dto.MemDTO">
+insert into talk values(SEQ_talk_t_num.nextval,'admin',#{id},'판매자로 등급 조정되었습니다. PUB 등록 신청이 가능합니다.',to_char(sysdate,'MM"월"DD"일" HH:MI'),'N','wow')
+</insert>
+<!-- END 어드민 : 판매자 신청 수락 -->
+
+<!-- 어드민 : 판매자 신청 거부 -->
+<update id="disablesell" parameterType="dto.MemDTO">
+update members set allow_chk='N' where id=#{id}
+</update>
+<insert id="disableselltalk" parameterType="dto.MemDTO">
+insert into talk values(SEQ_talk_t_num.nextval,'admin','sell','판매자 등급 신청이 취소되었습니다.',to_char(sysdate,'MM"월"DD"일" HH:MI'),'N','ohno')
+</insert>
+<!-- END 어드민 : 판매자 신청 거부 -->
+
+<!-- 회원정보 수정 INTRO -->
+<select id="memuptint" parameterType="dto.MemDTO" resultType="dto.MemDTO">
+select * from members where id=#{id}
+</select>
+<!-- END 회원정보 수정 INTRO -->
+
+<!-- 회원정보 수정 OK -->
+<select id="memfacechk" parameterType="dto.MemDTO" resultType="string">
+select face from members where id=#{id}
+</select>
+
+<update id="memuptok" parameterType="dto.MemDTO">
+update members set pw=#{pw},phone=#{phone},email=#{email},email_agree=#{email_agree},sex=#{sex},name=#{name},birth=#{birth},userchk=#{userchk}
+<if test="face!=null">
+,face=#{face}
+</if>
+,allow_chk=#{allow_chk},login_time=#{login_time},saupja_num=#{saupja_num}
+where id=#{id}
+</update>
+<!-- END 회원정보 수정 OK  -->
+
+<!-- 회원 탈퇴  -->
+<resultMap type="dto.MemDTO" id="leaveus" autoMapping="false">
+<result column="id" property="id"/>
+<result column="pw" property="pw"/>
+<result column="phone" property="phone"/>
+<result column="email" property="email"/>
+<result column="email_agree" property="email_agree"/>
+<result column="sex" property="sex"/>
+<result column="name" property="name"/>
+<result column="birth" property="birth"/>
+<result column="userchk" property="userchk"/>
+<result column="face" property="face"/>
+<result column="allow_chk" property="allow_chk"/>
+<result column="login_time" property="login_time"/>
+<result column="saupja_num" property="saupja_num"/>
+<collection property="pub" javaType="java.util.List" ofType="dto.PubDTO" autoMapping="false">
+<result column="p_title" property="p_title"/>
+</collection>
+</resultMap>
+
+
+<resultMap type="dto.MemDTO" id="searchdelpic" autoMapping="false">
+<result column="id" property="id"/>
+<result column="pw" property="pw"/>
+<result column="phone" property="phone"/>
+<result column="email" property="email"/>
+<result column="email_agree" property="email_agree"/>
+<result column="sex" property="sex"/>
+<result column="name" property="name"/>
+<result column="birth" property="birth"/>
+<result column="userchk" property="userchk"/>
+<result column="face" property="face"/>
+<result column="allow_chk" property="allow_chk"/>
+<result column="login_time" property="login_time"/>
+<result column="saupja_num" property="saupja_num"/>
+<association property="picpub" javaType="dto.PubDTO" autoMapping="false">
+<result column="p_mupload" property="p_mupload"/>
+<result column="p_supload" property="p_supload"/>
+</association>
+<collection property="picsocial" javaType="java.util.List" ofType="dto.SocialDTO" autoMapping="false">
+<result column="s_upload" property="s_upload"/>
+</collection>
+<collection property="picquestion" javaType="java.util.List" ofType="dto.QuestionDTO" autoMapping="false">
+<result column="q_upload" property="q_upload"/>
+</collection>
+</resultMap>
+
+
+<select id="leavemem" parameterType="dto.MemDTO" resultMap="leaveus">
+select m.* , p.p_title
+from members m, pub p
+where m.id=p.id(+) and m.id=#{id}
+</select>
+
+<delete id="delleavemem" parameterType="dto.MemDTO">
+delete from members where id = #{id}
+</delete>
+
+<select id="delmemallpic" parameterType="dto.MemDTO" resultMap="searchdelpic">
+select m.id,m.face,p.p_mupload,p.p_supload, s.s_upload, q.q_upload
+from members m, pub p, social s, question q
+where m.id=p.id(+) and m.id=s.id(+) and m.id=q.id(+) and m.id=#{id}
+</select>
+ <!-- END 회원 탈퇴  -->
+ 
+ <!-- 판매자 신청 -->
+ <update id="joinseller" parameterType="dto.MemDTO">
+ update members set saupja_num=#{saupja_num}, allow_chk=#{allow_chk} where id=#{id}
+ </update>
+ <!--  END 판매자 신청 -->
+
+<!-- Pub등록 신청 -->
+<select id="pubmemid" parameterType="String" resultType="dto.MemDTO">
+select * from members where id=#{id}
+</select>
+<insert id="pubins" parameterType="dto.PubDTO">
+insert into pub values(SEQ_pub_p_num.nextval,#{id}
+<if test="p_mupload!=null">
+,#{p_mupload}
+</if>
+<if test="p_supload!=null">
+,#{p_supload}
+</if>
+,#{p_title},#{p_contents},#{p_address},#{p_maxpeople},#{p_pub_chk},#{p_addr_post})
+</insert>
+<!-- END Pub등록 신청 -->
+
+<!-- 판매자 총 예약리스트 화면 -->
+<select id="reservcount" parameterType="string" resultType="int">
+select count(*) from(select p.*,r.*
+from(select * from pub where id=#{id})p, reservation r
+where p.p_num=r.p_num(+))
+</select>
+
+<select id="sellreservalllist" parameterType="hashMap" resultMap="mypage_sell_reserv">
+ <![CDATA[
+select b.*
+from(select rownum as rm,a.*
+from(select p.*, r.res_num,r.p_num as rpnum , r.id as rrid, r.res_people,r.res_date,r.res_concheck,r.res_sellcheck,r.res_time,r.c_num,m.name,c.c_use,c.c_contents
+from(select * from pub where id=#{id})p,  reservation r, members m, coupon c
+where p.p_num=r.p_num(+) and  r.id=m.id(+) and r.c_num=c.c_num(+)
+order by r.res_num desc)a)b
+where b.rm>=#{pv.startRow} and b.rm<=#{pv.endRow}
+ ]]> 
+</select>
+<!-- END 판매자 총 예약리스트 화면 -->
+
+<!-- 펍 수정 정보 -->
+<resultMap type="dto.MemDTO" id="mempub" autoMapping="false">
+<result column="id" property="id"/>
+<result column="pw" property="pw"/>
+<result column="phone" property="phone"/>
+<result column="email" property="email"/>
+<result column="email_agree" property="email_agree"/>
+<result column="sex" property="sex"/>
+<result column="name" property="name"/>
+<result column="birth" property="birth"/>
+<result column="userchk" property="userchk"/>
+<result column="face" property="face"/>
+<result column="allow_chk" property="allow_chk"/>
+<result column="login_time" property="login_time"/>
+<result column="saupja_num" property="saupja_num"/>
+<collection property="pub" javaType="java.util.List" ofType="dto.PubDTO" autoMapping="false">
+<result column="p_num" property="p_num"/>
+<result column="ppid" property="id"/>
+<result column="p_mupload" property="p_mupload"/>
+<result column="p_supload" property="p_supload"/>
+<result column="p_title" property="p_title"/>
+<result column="p_contents" property="p_contents"/>
+<result column="p_address" property="p_address"/>
+<result column="p_maxpeople" property="p_maxpeople"/>
+<result column="p_pub_chk" property="p_pub_chk"/>
+<result column="p_addr_post" property="p_addr_post"/>
+</collection>
+</resultMap>
+
+<select id="mempubinfo" parameterType="dto.MemDTO" resultMap="mempub">
+select m.* , p.p_num,p.id as ppid , p.p_mupload, p.p_supload, p.p_title, p.p_contents, p.p_address, p.p_maxpeople, p.p_pub_chk,p.p_addr_post
+from members m, pub p
+where m.id=p.id(+) and m.id=#{id}
+</select>
+<!-- END 펍 수정 정보 -->
+
+<!-- PUB 수정 완료 -->
+<select id="searchpubmimg" parameterType="string" resultType="string">
+select p_mupload from pub where id=#{id}
+</select>
+
+<select id="searchpubsimg" parameterType="string" resultType="string">
+select p_supload from pub where id=#{id}
+</select>
+
+<update id="updatepub" parameterType="dto.PubDTO">
+update pub set p_title=#{p_title}
+<if test="p_mupload!=null">
+,p_mupload=#{p_mupload}
+</if>
+ <if test="p_supload!=null">
+,p_supload=#{p_supload}
+</if>
+,p_contents=#{p_contents},p_address=#{p_address},p_maxpeople=#{p_maxpeople},p_pub_chk=#{p_pub_chk},p_addr_post=#{p_addr_post}
+where id=#{id} and p_num=#{p_num}
+</update>
+<!-- PUB 수정 완료 -->
+
+<!-- 받은 쪽지함 -->
+<select id="resp_mesgcount" parameterType="string" resultType="int">
+select count(*) from(select * from talk where t_resp=#{id})
+</select>
+
+<select id="resp_mesglist" parameterType="hashMap" resultType="dto.TalkDTO">
+ <![CDATA[
+select b.*
+from(select rownum as rm, a.*
+from(select * from talk where t_resp=#{id} order by t_num desc)a)b
+where b.rm>=#{pv.startRow} and b.rm<=#{pv.endRow} 
+ ]]> 
+</select>
+<!-- END받은 쪽지함 -->
+
+<!-- 쪽지 삭제 -->
+ <delete id="multidelmsg">
+ delete from talk 
+ <where>
+ t_num in 
+ <foreach collection="array" item="element" open="(" separator="," close=")">
+ #{element}
+ </foreach>
+ </where>
+ </delete>
+<!-- END쪽지 삭제 -->
+
+<!-- 받은 쪽지 검색 -->
+<select id="searchsubjectcount" parameterType="hashMap" resultType="int">
+select count(*)
+from(select * from talk where t_resp=#{id} and t_title like '%' || #{searchworld} || '%')
+</select>
+
+<select id="searchsubject" parameterType="hashMap" resultType="dto.TalkDTO">
+<![CDATA[
+select b.*
+from(select rownum as rm, a.*
+from(select * from talk where t_resp=#{id} and t_title like '%' || #{searchworld} || '%' order by t_num desc)a)b
+where b.rm>=#{pv.startRow} and b.rm<=#{pv.endRow} 
+ ]]> 
+</select>
+
+<select id="searchcontentcount" parameterType="hashMap" resultType="int">
+select count(*)
+from(select * from talk where t_resp=#{id} and t_message like '%' || #{searchworld} || '%')
+</select>
+
+<select id="searchcontent" parameterType="hashMap" resultType="dto.TalkDTO">
+<![CDATA[
+select b.*
+from(select rownum as rm, a.*
+from(select * from talk where t_resp=#{id} and t_message like '%' || #{searchworld} || '%' order by t_num desc)a)b
+where b.rm>=#{pv.startRow} and b.rm<=#{pv.endRow} 
+ ]]> 
+</select>
+
+
+<select id="searchdoublecount" parameterType="hashMap" resultType="int">
+select count(*)
+from(select * from talk where t_resp=#{id} and t_message like '%' || #{searchworld} || '%' or id=#{id} and t_title like  '%' || #{searchworld} || '%')
+</select>
+
+<select id="searchdouble" parameterType="hashMap" resultType="dto.TalkDTO">
+<![CDATA[
+select b.*
+from(select rownum as rm, a.*
+from(select * from talk where t_resp=#{id} and t_message like '%' || #{searchworld} || '%' or id=#{id} and t_title like  '%' || #{searchworld} || '%')a)b
+where b.rm>=#{pv.startRow} and b.rm<=#{pv.endRow} 
+ ]]> 
+</select>
+
+
+<select id="searchidcount" parameterType="hashMap" resultType="int">
+select count(*)
+from(select * from talk where t_resp=#{id} and id=#{searchworld})a
+</select>
+
+<select id="searchid" parameterType="hashMap" resultType="dto.TalkDTO">
+<![CDATA[
+select b.*
+from(select rownum as rm, a.*
+from(select * from talk where t_resp=#{id} and id=#{searchworld})a)b
+where b.rm>=#{pv.startRow} and b.rm<=#{pv.endRow} 
+ ]]> 
+</select>
+<!-- END받은 쪽지 검색 -->
+
+<!-- 보낸 쪽지함 -->
+<select id="send_mesgcount" parameterType="string" resultType="int">
+select count(*) from(select * from talk where id=#{id})
+</select>
+
+<select id="send_mesglist" parameterType="hashMap" resultType="dto.TalkDTO">
+ <![CDATA[
+select b.*
+from(select rownum as rm, a.*
+from(select * from talk where id=#{id} order by t_num desc)a)b
+where b.rm>=#{pv.startRow} and b.rm<=#{pv.endRow} 
+ ]]> 
+</select>
+<!-- END보낸 쪽지함 -->
+
+<!-- 보낸 쪽지 검색 -->
+
+<select id="sendsearchsubjectcount" parameterType="hashMap" resultType="int">
+select count(*)
+from(select * from talk where id=#{id} and t_title like '%' || #{searchworld} || '%')
+</select>
+
+<select id="sendsearchsubject" parameterType="hashMap" resultType="dto.TalkDTO">
+<![CDATA[
+select b.*
+from(select rownum as rm, a.*
+from(select * from talk where id=#{id} and t_title like '%' || #{searchworld} || '%' order by t_num desc)a)b
+where b.rm>=#{pv.startRow} and b.rm<=#{pv.endRow} 
+ ]]> 
+</select>
+
+<select id="sendsearchcontentcount" parameterType="hashMap" resultType="int">
+select count(*)
+from(select * from talk where id=#{id} and t_message like '%' || #{searchworld} || '%')
+</select>
+
+<select id="sendsearchcontent" parameterType="hashMap" resultType="dto.TalkDTO">
+<![CDATA[
+select b.*
+from(select rownum as rm, a.*
+from(select * from talk where id=#{id} and t_message like '%' || #{searchworld} || '%' order by t_num desc)a)b
+where b.rm>=#{pv.startRow} and b.rm<=#{pv.endRow} 
+ ]]> 
+</select>
+
+
+<select id="sendsearchdoublecount" parameterType="hashMap" resultType="int">
+select count(*)
+from(select * from talk where id=#{id} and t_message like '%' || #{searchworld} || '%' or id=#{id} and t_title like  '%' || #{searchworld} || '%')
+</select>
+
+<select id="sendsearchdouble" parameterType="hashMap" resultType="dto.TalkDTO">
+<![CDATA[
+select b.*
+from(select rownum as rm, a.*
+from(select * from talk where id=#{id} and t_message like '%' || #{searchworld} || '%' or id=#{id} and  t_title like  '%' || #{searchworld} || '%')a)b
+where b.rm>=#{pv.startRow} and b.rm<=#{pv.endRow} 
+ ]]> 
+</select>
+
+
+<select id="sendsearchidcount" parameterType="hashMap" resultType="int">
+select count(*)
+from(select * from talk where id=#{id} and t_resp=#{searchworld})a
+</select>
+
+<select id="sendsearchid" parameterType="hashMap" resultType="dto.TalkDTO">
+<![CDATA[
+select b.*
+from(select rownum as rm, a.*
+from(select * from talk where id=#{id} and t_resp=#{searchworld})a)b
+where b.rm>=#{pv.startRow} and b.rm<=#{pv.endRow} 
+ ]]> 
+</select>
+
+<!-- END보낸 쪽지 검색 -->
+
+<!-- 쪽지 쓰기 -->
+<insert id="writemesg" parameterType="dto.TalkDTO">
+insert into talk values(SEQ_talk_t_num.nextval,#{id},#{t_resp},#{t_message},to_char(sysdate,'YYYY"-"MM"-"DD HH24:MI:SS'),'N',#{t_title})
+</insert>
+<!-- END 쪽지 쓰기 -->
+
+<!-- 받은 쪽지함 뷰 보기 -->
+<select id="viewmsg" parameterType="int" resultType="dto.TalkDTO">
+select * from talk where t_num=#{t_num}
+</select>
+<!-- END 받은 쪽지함 뷰 보기 -->
+
+<!-- 받은 쪽지함 뷰 삭제 -->
+<delete id="delviewmsg" parameterType="int">
+delete from talk where t_num = #{t_num}
+</delete>
+
+<!-- END받은 쪽지함 뷰 삭제 -->
+</mapper>

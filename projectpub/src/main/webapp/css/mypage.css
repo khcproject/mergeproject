@@ -1,0 +1,236 @@
+.header {
+	height: 100px;
+	background-color: red;
+}
+
+.footer {
+	height: 100px;
+	background-color: red;
+}
+
+.full {
+	width: 100%;
+	background-color: white;
+}
+
+/* 메인 고정 */
+.full_sub{
+
+		width: 1100px;
+		margin: auto;
+}
+
+/* 사이드 메뉴 */
+.sidemenu{
+	width: 15%;
+	height:850px;
+	float:left;
+	background-color: skyblue;
+	
+}
+
+/* 메인 메뉴 */
+.mainmenu{
+	width:85%;
+	height:850px;
+	display:inline-block;
+	background-color: white;
+	
+}
+
+/* 사이드메뉴 버튼*/
+.common_btn{
+	text-align: center;
+	height:50px;
+	line-height: 50px;
+}
+
+ /* 사이드 메뉴쪽 사진과 이름 */
+.face_and_name{
+	margin-top:30px;
+	height:100px;
+	text-align: center;
+	line-height: 30px;
+}
+
+/* 동그란 프로필 사진 */
+#face_pic{
+	width: 35px;
+	height: 35px;
+	border-radius: 20px;
+}
+ /* 사이드 메뉴 이름 */
+.member_name{
+	height:50px;
+}
+
+/* 프로필 큰 사진 */
+#big_face_pic{
+	width: 350px;
+	height: 300px;
+	float:left;
+}
+
+  /* 프로필 상단 부분 */
+#profile_intro{
+	width: 585px;
+	height:300px;
+	display:inline-block;
+	background-color: white;
+}
+
+  /* 프로필 상단 머리글 */
+#profile_h{
+	margin-top:10px;
+	margin-left:10px;
+	height:50px;
+	font-size: 30px;
+	font-weight: bold;
+}
+ /* 프로필 상단 공통 글자 */
+.profile_text{
+	margin-left:20px;	
+	height: 30px;
+	line-height: 30px;
+}
+
+  /* 메인 페이지 하단 부분 */
+.main_bot{
+	height: 530px;
+	background-color: yellow;
+}
+
+  /* 메인페이지 상단과 하단 구분 선 */
+#main_hr{
+	height: 20px;
+}
+  /* 메인페이지 하단 부분 공통 2등분  */
+.main_bot_comm{
+	height: 265px;
+}
+
+ /* 메인 페이지 하단 부분 제목글 부분 공통 */
+.main_bot_head{
+	height: 30px;
+	text-align: center;
+	line-height:30px;
+	font-size: 20px;
+	font-weight: bold;
+	background-color: fuchsia;
+}
+ /* 메인페이지 하단 부분 윗쪽 출력 화면 */
+#reservation_proc{
+	height: 235px;
+}
+
+/* 메인페이지 하단 부분 아랫쪽 출력 화면 */
+#cuscoupon_proc{
+	height: 235px;
+}
+ /* 메인페이지 하단 부분 공통 출력 글자(span5개) */
+#cusrerv{
+	display: block;
+	float: left;
+	width: 165px;
+	text-align: center;
+	margin: 10px;
+}
+
+#sellreserv{
+	display: block;
+	float: left;
+	width: 132px;
+	text-align: center;
+	margin: 10px;
+}
+
+/* 메인페이지 하단 부분 공통 출력 글자(span4개) */
+
+#commcoupon{
+	display: block;
+	float: left;
+	width: 210px;
+	text-align: center;
+	margin: 10px;
+}
+
+/* 메인페이지 하단 부분 공통 출력 글자(span1개) */
+#nocoupon{
+	display: block;
+	float: left;
+	width: 900px;
+	text-align: center;
+	margin: 10px;
+}
+/* 메인페이지 하단 부분 어드민 출력 글자(span4개) */
+#adminsell{
+	display: block;
+	float: left;
+	width: 210px;
+	text-align: center;
+	margin: 10px;
+}
+
+/* 메인페이지 하단 부분 어드민 출력 글자(span4개) */
+#adminpub{
+	display: block;
+	float: left;
+	width: 210px;
+	text-align: center;
+	margin: 10px;
+}
+/*--------- 메인페이지 + 회원정보수정 사이드 메뉴 공통 END ---------*/
+
+/*파일 입력 input*/
+#face_div{
+	width:298px;
+	height:147px;
+	border: 1px solid gray;
+}
+
+/*미리보기 img*/
+#face_show{
+	width:298px;
+	height:147px;
+}
+
+/*---------- 회원정보수정 페이지 END -------------*/
+
+.gongback{
+	margin-top: 260px;
+}
+
+/*---------------회원정보 PW 페이지 END ---------*/
+
+.jpsidemenu{
+	width: 15%;
+	float:left;
+	background-color: skyblue;
+	
+}
+
+/* 메인 메뉴 */
+.jpmainmenu{
+	width:85%;
+	display:inline-block;
+	background-color: white;
+	
+}
+
+
+/*파일 입력 input*/
+#jpsubface_div{
+	width:298px;
+	height:147px;
+	border: 1px solid gray;
+}
+
+/*미리보기 img*/
+#jpsubface_show{
+	width:298px;
+	height:147px;
+}
+
+/* 다중 미리보기 div */
+
+/*---------------PUB 등록 END ---------*/

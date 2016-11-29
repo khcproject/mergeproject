@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reser">
+
+	<select id="mupload" resultType="dto.PubDTO">
+		select p_mupload
+		from board where
+		p_num=#{p_num}
+	</select>
+
+
+	<resultMap type="dto.PubDTO" id="view" autoMapping="false">
+		<result column="p_num" property="p_num" />
+		<result column="id" property="id" />
+		<result column="p_mupload" property="p_mupload" />
+		<result column="p_supload" property="p_supload" />
+		<result column="p_title" property="p_title" />
+		<result column="p_contents" property="p_contents" />
+		<result column="p_address" property="p_address" />
+		<result column="p_maxpeople" property="p_maxpeople" />
+		<result column="p_pub_chk" property="p_pub_chk" />
+		<result column="p_star" property="p_star" />
+		<association property="star" javaType="dto.StarsDTO"
+			autoMapping="false">
+			<result column="star_avg" property="s_stars" />
+		</association>
+
+		<collection property="reply" javaType="java.util.List"
+			ofType="dto.Pr_replyDTO" autoMapping="false">
+			<result column="pr_num" property="pr_num" />
+			<result column="replyId" property="id" />
+			<result column="rpnum" property="p_num" />
+			<result column="pr_like" property="pr_like" />
+			<result column="pr_content" property="pr_content" />
+		</collection>
+	</resultMap>
+
+	<select id="view" parameterType="int" resultMap="view">
+		select p.p_num,
+		p.id, p.p_mupload, p.p_supload, p.p_title, p.p_contents , p.p_address,
+		p.p_maxpeople, r.pr_num, r.id as replyId, r.p_num as rpnum, r.pr_like,
+		r.pr_content, s.star_avg
+		from pub p, pr_reply r, (select p_num, (select
+		round(avg(s_stars),1)
+		as star_avg from stars) as star_avg from STARS where p_num
+		= #{p_num}
+		group by p_num) s
+		where
+		p.p_num = r.p_num(+) and p.p_num =
+		s.p_num(+)	
+		and
+		p.p_num=#{p_num}
+	</select>
+
+	<!-- 예약등록 -->
+	<insert id="resinsert" parameterType="dto.ReservationDTO">
+		insert into reservation
+		values(SEQ_reservation_res_num.nextval, #{p_num}, 'cus',
+		#{res_people},
+		#{res_date}, 'Y','N' , #{res_time}, #{c_num,jdbcType=VARCHAR})
+
+	</insert>
+
+	<!-- 댓글등록 -->
+	<insert id="replyinsert" parameterType="dto.Pr_replyDTO">
+		insert into
+		pr_reply
+		values(SEQ_pr_reply_pr_num.nextval, 'cus',
+		#{p_num},
+		0,
+		#{pr_content})
+	</insert>
+
+	<!-- 댓글 삭제 -->
+	<delete id="replyDel" parameterType="int">
+		delete from pr_reply where
+		pr_num = #{pr_num}
+	</delete>
+
+	<!-- 댓글 수정 -->
+
+	<update id="replyUpdate" parameterType="dto.Pr_replyDTO">
+		update pr_reply set
+		pr_content=#{pr_content}
+		where pr_num = #{pr_num}
+	</update>
+
+	<!-- 댓글 불러오기 -->
+	<select id="reply_List" resultType="dto.Pr_replyDTO"
+		parameterType="int">
+		select *
+		from pr_reply
+		where p_num = #{p_num}
+		order by
+		pr_num desc
+	</select>
+
+	<!-- 별점등록 -->
+	<insert id="pubStarIns" parameterType="dto.StarsDTO">
+		insert into stars
+		values(#{p_num}, 'cus', #{s_stars})
+
+	</insert>
+
+	<!-- 별점 불러오기 -->
+	<select id="pubStarsSel" parameterType="int" resultType="dto.StarsDTO">
+		select
+		round(avg(s_stars),1) as s_stars from stars where p_num = #{p_num}
+	</select>
+
+	<!-- 쿠폰 불러오기 -->
+	<select id="couponList" parameterType="String" resultType="dto.CouponDTO">
+		select *
+		from coupon where id='cus'
+	</select>
+
+
+	<!-- 펍등록 -->
+	<insert id="save" parameterType="dto.PubDTO">
+		insert into pub
+		values(SEQ_pub_p_num.nextval,'sell',#{p_mupload},#{p_supload},#{p_title},#{p_contents},#{p_address},#{p_maxpeople},'S','123-123')
+	</insert>
+
+	<!-- 회원가입 -->
+	<insert id="meminsert" parameterType="dto.MemDTO">
+		insert all into members
+		values(#{id},#{pw},#{phone},#{email},#{email_agree},#{sex},#{name},#{birth},#{userchk},#{face},#{allow_chk},to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),
+		#{saupja_num, jdbcType=VARCHAR})
+		select * from dual
+	</insert>
+
+</mapper>

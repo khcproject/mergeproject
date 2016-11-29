@@ -1,0 +1,28 @@
+1. 로그인 하는 순간 memebers 테이블에 현재 date 저장 필요.
+
+2. 구매자가 예약하는순간 concheck가 y  sellcheck 가 n 로 인서트되고 구매자 페이지에서  
+   예약신청중이라고 표기 됨. (예약 취소 버튼 항상 필요)
+   판매자는 concheck 에서 con,sell 이 y,n일때 예약요청받음(?) 으로 표기되고 수락하면
+  sellcheck가 y로 변환 
+   구매자 페이지에서는 con,sell 이 y , y일경우 예약됨으로 변경  (예약 취소 버튼 항상 필요)    
+  판매자 페이지에서는 y y 경우에는 안보이고 예약 리스트 에서 확인 가능.  
+  판매자 예약신청 수락시sell_check 'Y'  거부시 'C'
+
+3. allow_chk 기본 'N'  요청시'R'  수락시 'Y' 
+4. pub_chk 기본'N' 수락시 'Y' 
+5. 마이페이지 들어갈때 꼭 세션의 아이디값을 받아서 그걸로 검색해서 들어와야야함★★★★★★★
+
+테이블 수정
+
+1. members테이블에 등업 체크 컬럼 추가 allow_chk dto추가 login_time(스트링)추가
+2. pub테이블에 펍등록체크 걸럼 추가 pub_chk dto 추가 p_address컬럼명 수정 dto 수정  
+3. coupon테이블에서 c_coupon(쿠폰시리얼번호),c_date(사용가능한기간날짜,스트링),c_use(사용여부)
+   dto 추가
+4.reservation 테이블 c_num 컬럼삭제(dto 수정)
+  res_date(스트링 예약날짜) res_time(스트링 예약시간) dto 수정
+ 5.question테이블 q_date(스트링) dto수정 + q_date로 수정
+6. notice 테이블 q_date(스트링) dto수정 + n_viewcnt수정
+7. talk 테이블 t_date(스트링) dto 수정
+8. social 테이블 s_date(스트링) dto수정
+9 event테이블 e_date(스트링) dto수정
+10. 시퀀스  nocache nocycle추가 

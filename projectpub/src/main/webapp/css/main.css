@@ -1,0 +1,80 @@
+
+#backgrund{
+	width: 100%;
+	
+	background-color: yellow;
+	
+	
+}
+
+#header{
+	width: 100%;
+	height: 100px;
+	background-color: blue; 
+}
+
+#footer{
+	width: 100%;
+	height: 100px;
+	background-color: red;
+}
+
+
+
+#bodywrap{
+	background-color:white;
+	width: 1100px;
+	margin: 100px auto;
+	/* margin-left: auto;
+	margin-right: auto; */ 
+
+}
+/* 공지사항,Q&A번튼 */
+
+/* 공지사항,Q&A번튼 */
+#noticebtn input[type=submit]{
+	background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    margin: 2px 1px;
+    cursor: pointer;
+    width: 548px;
+    height: 30px;
+    float: left;
+    
+}
+
+
+/*글쓰기  */
+#frm input[type=submit]{
+	background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-decoration: none;
+    margin: 2px 1px;
+    cursor: pointer;
+    width: 100px;
+    height:25px;
+    float: right;
+    
+}
+
+/* 검색 */
+.frms{
+	text-align: center;
+}
+
+
+/* 페이지번호 */
+#page{ 
+	text-align: center;
+}
+
+
+}
+
+
+
