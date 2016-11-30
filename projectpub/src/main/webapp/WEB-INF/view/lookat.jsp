@@ -29,7 +29,7 @@
 		<c:choose>
 			<c:when test="${fn:length(aList)}>0">
 			<div id="rank1">
-				<li><a href="#"><img src="\projectpub\temp//${aList[0].p_mupload}" style="width:1098px; height:598px; " alt="메인" /></a></li>
+				<li><a href="pubview.do?p_num=${aList[0].p_num}"><img src="\projectpub\temp//${aList[0].p_mupload}" style="width:1098px; height:598px; " alt="메인" /></a></li>
 			</div>
 			<div id="rankrest">
 			<ul id="slide_banner">
@@ -71,7 +71,7 @@
 			<table id="table">
 			<c:forEach var="pub" items="${aList2}">
 				<div id="test">
-					<img src="\projectpub\temp//${pub.p_mupload}" style="width:212px; height:274px; " alt="사진1" />
+					<a href="pubview.do?p_num=${pub.p_num}"><img src="\projectpub\temp//${pub.p_mupload}" style="width:212px; height:274px; " alt="사진1" /></a>
 					<a>Pub집 이름 : ${pub.p_title}</a></br>
 					<a>Pub집 주소 : ${pub.p_address}</a></br>
 					<a>최대인원 : ${pub.p_maxpeople}</a></br>
