@@ -24,7 +24,15 @@
 		<div class="sidemenu">
 			<!-- 공통 -->
 			<div class="face_and_name">
-				<img id="face_pic" src="\projectpub\temp//${mdto[0].face}" />
+			<c:choose>
+			<c:when test="${mdto[0].face!=null}">
+			<img id="face_pic" src="\projectpub\temp//${mdto[0].face}" />
+			</c:when>
+			<c:otherwise>
+			<img id="face_pic" src="images\nopicture.jpg"/>
+			</c:otherwise>
+			</c:choose>
+				
 				<div id="member_name">
 					<c:out value="${mdto[0].name}님" />
 				</div>
@@ -57,7 +65,14 @@
 
 		<div class="mainmenu">
 			<div id="profile_pic">
-				<img id="big_face_pic" src="\projectpub\temp//${mdto[0].face}" />
+			<c:choose>
+			<c:when test="${mdto[0].face!=null}">
+			<img id="big_face_pic" src="\projectpub\temp//${mdto[0].face}" />
+			</c:when>
+			<c:otherwise>
+			<img id="big_face_pic" src="images\nopicture.jpg"/>
+			</c:otherwise>
+			</c:choose>
 			</div>
 			<div id="profile_intro">
 				<div id="profile_h">프로필</div>
