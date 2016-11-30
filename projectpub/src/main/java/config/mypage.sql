@@ -1,5 +1,7 @@
-select * from members
+select * from stars
 select dates from members
+insert into stars
+values(3,'test21',5)
 select * from pub
 	e_uploads varchar2(1000),
 ALTER TABLE talk
