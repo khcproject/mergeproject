@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-	<!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -24,15 +24,15 @@
 		<div class="sidemenu">
 			<!-- 공통 -->
 			<div class="face_and_name">
-			<c:choose>
-			<c:when test="${mdto[0].face!=null}">
-			<img id="face_pic" src="\projectpub\temp//${mdto[0].face}" />
-			</c:when>
-			<c:otherwise>
-			<img id="face_pic" src="images\nopicture.jpg"/>
-			</c:otherwise>
-			</c:choose>
-				
+				<c:choose>
+					<c:when test="${mdto[0].face!=null}">
+						<img id="face_pic" src="\projectpub\temp//${mdto[0].face}" />
+					</c:when>
+					<c:otherwise>
+						<img id="face_pic" src="images\nopicture.jpg" />
+					</c:otherwise>
+				</c:choose>
+
 				<div id="member_name">
 					<c:out value="${mdto[0].name}님" />
 				</div>
@@ -54,7 +54,7 @@
 						</c:when>
 						<c:otherwise>
 							<div id="update_pub" class="common_btn special_btn">펍 수정</div>
-								<div id="reserv_list" class="common_btn special_btn">예약 리스트</div>
+							<div id="reserv_list" class="common_btn special_btn">예약 리스트</div>
 						</c:otherwise>
 					</c:choose>
 					<div id="leave" class="common_btn">회원탈퇴</div>
@@ -65,14 +65,14 @@
 
 		<div class="mainmenu">
 			<div id="profile_pic">
-			<c:choose>
-			<c:when test="${mdto[0].face!=null}">
-			<img id="big_face_pic" src="\projectpub\temp//${mdto[0].face}" />
-			</c:when>
-			<c:otherwise>
-			<img id="big_face_pic" src="images\nopicture.jpg"/>
-			</c:otherwise>
-			</c:choose>
+				<c:choose>
+					<c:when test="${mdto[0].face!=null}">
+						<img id="big_face_pic" src="\projectpub\temp//${mdto[0].face}" />
+					</c:when>
+					<c:otherwise>
+						<img id="big_face_pic" src="images\nopicture.jpg" />
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<div id="profile_intro">
 				<div id="profile_h">프로필</div>
@@ -214,9 +214,9 @@
 							<div id="reservation_proc">
 
 								<div id="span_comm">
-									<span id="sellreserv">신청인</span> <span id="sellreserv">예약 날짜</span> <span
-										id="sellreserv">예약 시간</span> <span id="sellreserv">예약 인원</span><span
-										id="sellreserv">쿠폰 유무</span> <span id="sellreserv">수락여부</span>
+									<span id="sellreserv">신청인</span> <span id="sellreserv">예약
+										날짜</span> <span id="sellreserv">예약 시간</span> <span id="sellreserv">예약
+										인원</span><span id="sellreserv">쿠폰 유무</span> <span id="sellreserv">수락여부</span>
 								</div>
 								<div id="span_comm">
 									<c:choose>
@@ -228,7 +228,7 @@
 											test="${sellreserv[0].p_pub_chk=='Y' && sellreserv[0].reservation[0].res_num!=null}">
 											<c:forEach items="${sellreserv}" var="sell">
 												<c:forEach items="${sell.reservation}" var="sellres">
-												<c:if test="${sellres.res_sellcheck=='N'}">
+													<c:if test="${sellres.res_sellcheck=='N'}">
 														<span id="sellreserv"><c:out
 																value="${sellres.members.name}" /></span>
 														<span id="sellreserv"><c:out
@@ -251,7 +251,7 @@
 															<button id="sellallow_btn" value="${sellres.res_num}">수락</button>
 															<button id="sellcanncle_btn" value="${sellres.res_num}">거부</button>
 														</span>
-														</c:if>
+													</c:if>
 												</c:forEach>
 											</c:forEach>
 										</c:when>
@@ -267,7 +267,7 @@
 							<div id="second_head" class="main_bot_head">쿠폰</div>
 							<div id="cuscoupon_proc">
 
-									<div id="span_comm">
+								<div id="span_comm">
 									<span id="commcoupon">쿠폰 이름</span> <span id="commcoupon">남은기간</span>
 									<span id="commcoupon">사용 여부</span><span id="commcoupon">사용처</span>
 

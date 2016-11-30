@@ -50,11 +50,11 @@ update members set allow_chk='Y' where id='selltest';
 update members set email_agree='Y' where id='adminadmin';
 
 --coupon 등록
-insert into coupon values(SEQ_coupon_c_num.nextval,'cus','c_contents','c_coupon',to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N');
+insert into coupon values(SEQ_coupon_c_num.nextval,'selltest','c_contents','c_coupon',to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N');
 insert into coupon values(SEQ_coupon_c_num.nextval,'cus','c_contents2','c_coupon2',to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N');
 insert into coupon values(SEQ_coupon_c_num.nextval,'sell','c_contents','c_coupon',to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N');
 select * from coupon
-update coupon set c_use='N' where c_num=1
+update coupon set c_use='Y'
 
 
 --pub 등록
@@ -66,14 +66,14 @@ update pub set p_pub_chk='Y' where id='selltest'
  
 
 --reservation 등록
-insert into reservation values(SEQ_reservation_res_num.nextval,13,'cus','5',to_char(sysdate,'YYYY"년"MM"월"DD"일"'),'Y','N',to_char(sysdate,'HH"시'),1);
+insert into reservation values(SEQ_reservation_res_num.nextval,1,'customer','10',to_char(sysdate,'YYYY"년"MM"월"DD"일"'),'Y','N',to_char(sysdate,'HH"시'),1);
 insert into reservation values(SEQ_reservation_res_num.nextval,2,'customer','8',to_char(sysdate,'YYYY"년"MM"월"DD"일"'),'Y','N',to_char(sysdate,'HH"시'));
 insert into reservation values(SEQ_reservation_res_num.nextval,1,'cus','7',to_char(sysdate,'YYYY"년"MM"월"DD"일"'),'Y','N',to_char(sysdate,'HH"시'));
 --11/14 추가
 insert into reservation values(SEQ_reservation_res_num.nextval,1,'customer','9',to_char(sysdate,'YYYY"년"MM"월"DD"일"'),'Y','N',to_char(sysdate,'HH"시'));
 insert into reservation values(SEQ_reservation_res_num.nextval,2,'cus','7',to_char(sysdate,'YYYY"년"MM"월"DD"일"'),'Y','N',to_char(sysdate,'HH"시'));
 insert into reservation values(SEQ_reservation_res_num.nextval,2,'cus2','16',to_char(sysdate,'YYYY"년"MM"월"DD"일"'),'Y','N',to_char(sysdate,'HH"시'));
-select * from reservation
+z
 
 update reservation set res_sellcheck='Y' where res_num=3
 delete from reservation 
@@ -121,7 +121,7 @@ where z.rm<=4
 select b.*
 from(select rownum as rm,a.*
 from(select p.*, r.res_num,r.p_num as rpnum , r.id as rrid, r.res_people,r.res_date,r.res_concheck,r.res_sellcheck,r.res_time,r.c_num,m.name,c.c_use,c.c_contents
-from(select * from pub where id='sell')p,  reservation r, members m, coupon c
+from(select * from pub where id='selltest')p,  reservation r, members m, coupon c
 where p.p_num=r.p_num(+) and  r.id=m.id(+) and r.c_num=c.c_num(+)
 order by r.res_num desc)a)b
 where b.rm<=4 

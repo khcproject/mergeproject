@@ -182,7 +182,23 @@
 		<property name="order" value="2" />
 	</bean>
 
-	<!-- tile -->
+	
+	
+	<!-- interceptor -->
+<mvc:interceptors>
+	
+	<mvc:interceptor>
+		<mvc:mapping path="/mypage.do"/>
+		<bean class="interceptor.SampleInterceptor"/>
+	</mvc:interceptor>
+	
+</mvc:interceptors>
+	
+	
+	
+	
+	
+	
 	<!-- view -->
 	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass"
@@ -199,5 +215,6 @@
 		</property>
 	</bean>
 
-
+<!-- tile -->
+	
 </beans>
