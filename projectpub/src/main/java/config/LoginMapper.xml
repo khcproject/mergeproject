@@ -21,6 +21,28 @@
 	<!-- 로그인 -->
 	<select id="log" parameterType="dto.MemDTO" resultType="dto.MemDTO">
 		select
-		* from members where id=#{id} and pw = #{pw}
+		*
+		from members where id=#{id} and pw = #{pw}
 	</select>
+
+	<!-- 로그인시 로그인타임 최신화 -->
+	<update id="log_time" parameterType="dto.MemDTO">
+		update MEMBERS set
+		login_time =
+		to_char(sysdate+20,'YYYY"년"MM"월"DD"일"') where id= #{id}
+	</update>
+
+
+	<!-- emailagree Y로 변경 -->
+	<update id="emailchk" parameterType="String">
+		update MEMBERS set
+		email_agree = 'Y' where id= #{id}
+	</update>
+
+	<!-- 비밀번호 찾기 -->
+	<select id="pwfind" parameterType="dto.MemDTO" resultType="dto.MemDTO">
+		select * from MEMBERS where id=#{id} and email=#{email}
+	</select>
+
+
 </mapper>

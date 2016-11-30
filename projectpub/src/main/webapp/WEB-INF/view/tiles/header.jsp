@@ -50,6 +50,10 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 				<c:choose>
+				<c:when test="${mem.userchk=='A'}">
+				<li><a href="manager.do">관리자페이지</a>
+				<li><a href="logout.do">로그아웃</a></li>
+				</c:when>
 				<c:when test="${mem!=null}">
 				<li><a href="mypage.do?id=cus">마이페이지</a></li>
 				<li><a href="logout.do">로그아웃</a></li>

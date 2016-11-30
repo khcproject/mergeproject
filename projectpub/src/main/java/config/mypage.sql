@@ -1,3 +1,11 @@
+update MEMBERS set email_agree = 'Y' where id= 'rudghekt'
+
+update MEMBERS set login_time = to_char(sysdate+20, YYYY'년'MM'월'DD'일') where id= 'rudghekt'
+
+
+
+select * from MEMBERS where id='rudghekt' and email='rudghekt@daum.net'
+
 select * from members
 select dates from members
 select * from pub
