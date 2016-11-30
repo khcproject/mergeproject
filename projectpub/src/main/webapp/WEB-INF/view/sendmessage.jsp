@@ -12,9 +12,9 @@
 <link rel="stylesheet" href="css/message.css?ver=2" />
 <script type="text/javascript" src="js/message.js?ver=2"></script>
 <link href="css/bootstrap.min.css" rel="stylesheet" />
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	var memid = "${memid}";
-</script>
+</script> -->
 </head>
 <body>
 	<!-- <div class="header footer"></div> -->
@@ -35,7 +35,7 @@
 		<div class="mainmenu">
 
 			<div class="head_ment">
-				<span>${memid}님의 보낸 쪽지함입니다.(읽지 않은 쪽지:?통)</span>
+				<span>${sessionScope.mem.id}님의 보낸 쪽지함입니다.(읽지 않은 쪽지:?통)</span>
 			</div>
 
 			<div class="head_button">
@@ -70,7 +70,7 @@
 											type="checkbox" class="chk" value="${sm.t_num}" /></td>
 										<c:url var="viewPage" value="sendviewmsg.do">
 											<c:param name="t_num" value="${sm.t_num}" />
-											<c:param name="id" value="${memid}" />
+											<%-- <c:param name="id" value="${memid}" /> --%>
 										</c:url>
 										<td width="270px" class="text-center"><a
 											href="${viewPage}">${sm.t_title}</a></td>
@@ -104,7 +104,7 @@
 								<c:url var="prePage" value="sendmessage.do">
 									<c:param name="currentPage"
 										value="${pv.startPage-pv.blockPage}" />
-									<c:param name="id" value="${memid}" />
+									<%-- <c:param name="id" value="${memid}" /> --%>
 								</c:url>
 								<a href="${prePage}"><c:out value="이전" /></a>
 							</c:if>
@@ -113,7 +113,7 @@
 							<c:forEach var="i" begin="${pv.startPage}" end="${pv.endPage}">
 								<c:url var="currPage" value="sendmessage.do">
 									<c:param name="currentPage" value="${i}" />
-									<c:param name="id" value="${memid}" />
+									<%-- <c:param name="id" value="${memid}" /> --%>
 								</c:url>
 								<a href="${currPage}"><c:out value="${i}" /></a>
 							</c:forEach>
@@ -150,7 +150,7 @@
 							<c:forEach var="i" begin="${spv.startPage}" end="${spv.endPage}">
 								<c:url var="currPage" value="sendsearchmsg.do">
 									<c:param name="currentPage" value="${i}" />
-									<c:param name="id" value="${memid}" />
+									<%-- <c:param name="id" value="${memid}" /> --%>
 									<c:param name="searchop" value="${searchop}" />
 									<c:param name="searchworld" value="${searchworld}" />
 								</c:url>
@@ -163,7 +163,7 @@
 								<c:url var="nextPage" value="sendsearchmsg.do">
 									<c:param name="currentPage"
 										value="${spv.startPage+spv.blockPage}" />
-									<c:param name="id" value="${memid}" />
+								<%-- 	<c:param name="id" value="${memid}" /> --%>
 									<c:param name="searchop" value="${searchop}" />
 									<c:param name="searchworld" value="${searchworld}" />
 								</c:url>
@@ -187,8 +187,8 @@
 							<option value="subandcon">제목+내용</option>
 							<option value="searchid">ID</option>
 						</select> <input type="text" id="searchworld" name="searchworld" /> <input
-							type="button" id="sendsearch_btn" value="검색" /> <input
-							type="hidden" name="id" value="${memid}">
+							type="button" id="sendsearch_btn" value="검색" /> 
+							<%-- <input type="hidden" name="id" value="${memid}"> --%>
 
 					</form>
 				</div>

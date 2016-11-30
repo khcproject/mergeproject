@@ -13,7 +13,7 @@
 <script type="text/javascript" src="js/message.js?ver=2"></script>
 <link href="css/bootstrap.min.css" rel="stylesheet" />
 <script type="text/javascript">
-	var memid = "${memid}";
+	/* var memid = "${memid}"; */
 	
 	$(document).ready(function() {
 	
@@ -46,7 +46,7 @@
 		<div class="mainmenu">
 
 			<div class="head_ment">
-				<span>${memid}님의 쪽지보기 입니다.</span>
+				<span>${sessionScope.mem.id}님의 쪽지보기 입니다.</span>
 			</div>
 			<hr/>
 			<div class="infodiv">
@@ -90,7 +90,7 @@
 				</c:otherwise>
 				</c:choose>
 				</div>
-				<input type="hidden" name="id" value="${memid}">
+			<%-- 	<input type="hidden" name="id" value="${memid}"> --%>
 				<input type="hidden" name="t_num" value="${tdto.t_num}">
 				<input type="hidden" name="t_resp" value="${tdto.id}">
 			</form>

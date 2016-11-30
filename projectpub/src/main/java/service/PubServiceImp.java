@@ -6,6 +6,7 @@ import dao.PubDao;
 import dto.MemDTO;
 import dto.PubDTO;
 import dto.PubPageDTO;
+import dto.StarsDTO;
 
 public class PubServiceImp implements PubService {
 	private PubDao dao;
@@ -128,6 +129,11 @@ public class PubServiceImp implements PubService {
 	@Override
 	public List<MemDTO> pubpre(String id) {
 		return dao.pubpre(id);
+	}
+
+	@Override
+	public List<StarsDTO> lid() {
+		return dao.lid();
 	}
 	
 }//end class

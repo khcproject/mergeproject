@@ -134,7 +134,8 @@ where b.rm<=4
 </select>
 <!-- END 판매자 예약리스트 -->	
 
-<!-- 관리자 : 판매자 등업 신청 현황 -->
+<!-- 비활성
+관리자 : 판매자 등업 신청 현황
 <select id="admin_selljoin" resultType="dto.MemDTO">
  <![CDATA[
 select rownum, a.*
@@ -143,9 +144,10 @@ order by id)a
 where rownum<=4
  ]]> 
 </select>
-<!-- END 관리자 : 판매자 등업 신청 현황 -->
+END 관리자 : 판매자 등업 신청 현황
 
-<!-- 관리자 : Pub 신청 현황 -->
+
+관리자 : Pub 신청 현황
 <resultMap type="dto.PubDTO" id="mypage_admin_pub" autoMapping="false">
 <result column="p_num" property="p_num"/>
 <result column="id" property="id"/>
@@ -169,7 +171,8 @@ from(select p.*,m.name from pub p, members m where p.id=m.id and p.p_pub_chk='N'
 where rownum<=4
  ]]> 
 </select>
-<!-- END 관리자 : Pub 신청 현황 -->
+END 관리자 : Pub 신청 현황
+비활성 -->
 
 <!-- 구매자 예약리스트 삭제 -->
 <delete id="cusdelreserv" parameterType="dto.ReservationDTO">
@@ -209,11 +212,11 @@ insert into talk values(SEQ_talk_t_num.nextval,'admin','sell','판매자 등급 
 </insert>
 <!-- END 어드민 : 판매자 신청 거부 -->
 
-<!-- 회원정보 수정 INTRO -->
+<!--회원정보 수정 INTRO-->
 <select id="memuptint" parameterType="dto.MemDTO" resultType="dto.MemDTO">
 select * from members where id=#{id}
 </select>
-<!-- END 회원정보 수정 INTRO -->
+<!--END 회원정보 수정 INTRO-->
 
 <!-- 회원정보 수정 OK -->
 <select id="memfacechk" parameterType="dto.MemDTO" resultType="string">
@@ -302,9 +305,13 @@ where m.id=p.id(+) and m.id=s.id(+) and m.id=q.id(+) and m.id=#{id}
  <!--  END 판매자 신청 -->
 
 <!-- Pub등록 신청 -->
+<!-- 
+비활성
 <select id="pubmemid" parameterType="String" resultType="dto.MemDTO">
 select * from members where id=#{id}
 </select>
+비활성 -->
+
 <insert id="pubins" parameterType="dto.PubDTO">
 insert into pub values(SEQ_pub_p_num.nextval,#{id}
 <if test="p_mupload!=null">

@@ -214,6 +214,13 @@ $(document)
 						loginMethod();
 					});
 
+					// 비밀번호 찾기 인증버튼
+					$("#pwfind_btn").bind('click', function() {
+						// alert($('#pwfind_Id').val());
+						// alert($('#pwfind_email').val());
+						pwFindMethod();
+					});
+
 				});
 
 function isContinuedValue(value) {
@@ -274,6 +281,32 @@ function loginMethod() {
 				window.location.href = data.href;
 			} else {
 				alert(data.chk);
+				return false;
+			}
+		},
+		error : function(error) {
+			alert(error);
+		}
+	});
+
+}
+
+function pwFindMethod() {
+	// alert($('#pwfind_Id').val());
+	// alert($('#pwfind_email').val());
+	$.ajax({
+		type : 'POST',
+		dataType : 'json',
+		url : 'pwfind.do',
+		data : 'id=' + $('#pwfind_Id').val() + '&email='
+				+ $('#pwfind_email').val(),
+		success : function(data) {
+		alert('왔섭?');
+			if (data.no == null) {
+				alert(data.ok)
+				window.location.href = data.href;
+			} else {
+				alert(data.no);
 				return false;
 			}
 		},

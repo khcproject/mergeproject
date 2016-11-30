@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import dto.PubDTO;
 import dto.PubPageDTO;
+import dto.StarsDTO;
 import service.PubService;
 
 @Controller
@@ -47,6 +48,7 @@ public class PubController {
 				you.get(i).setP_mupload(you.get(i).getP_mupload().split("/")[0]);
 			}
 		}
+		System.out.println(you.size());
 		mav.addObject("aList", you);
 
 		// 전체 펍 갯수 가져오기
@@ -61,13 +63,17 @@ public class PubController {
 
 			// 전체 펍 4개씩 잘라서 가져오기
 			List<PubDTO> you2 = service.listProcess(pubpdto);
-
+			//ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ
+			List<StarsDTO> lie = service.lid();
+			
 			for (int i = 0; i < you2.size(); i++) {
 				if (you2.get(i).getP_mupload().contains("/")) {
 					you2.get(i).setP_mupload(you2.get(i).getP_mupload().split("/")[0]);
 
 				}
 			}
+			//ㅅㅅㅅㅅㅅㅅㅅㅅ
+			mav.addObject("diao",lie);
 			mav.addObject("pv", pubpdto);
 			mav.addObject("aList2", you2);
 

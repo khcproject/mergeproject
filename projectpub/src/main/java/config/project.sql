@@ -115,7 +115,6 @@ CREATE TABLE pr_reply
 	pr_num number(5,0) NOT NULL,
 	id varchar2(128) NOT NULL,
 	p_num number(5,0) NOT NULL,
-	pr_like number(5,0),
 	pr_content varchar2(2000),
 	PRIMARY KEY (pr_num)
 );

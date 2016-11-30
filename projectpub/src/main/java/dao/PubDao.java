@@ -5,6 +5,7 @@ import java.util.List;
 import dto.MemDTO;
 import dto.PubDTO;
 import dto.PubPageDTO;
+import dto.StarsDTO;
 
 public interface PubDao {
 	public void save(PubDTO dto);
@@ -29,4 +30,5 @@ public interface PubDao {
 	public List<String> mwtotal();
 	public List<String> birth();
 	public List<MemDTO> pubpre(String id);
+	public List<StarsDTO> lid();
 }// end class

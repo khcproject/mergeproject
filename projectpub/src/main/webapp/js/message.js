@@ -1,22 +1,22 @@
 ﻿$(document).ready(function() {
 	// 받은 쪽지함 버튼
 	$('#response_message').on('click', function() {
-		location.href = 'gotomessage.do?id=' + memid;
+		location.href = 'gotomessage.do';
 	});
 
 	// 보낸 쪽지함 버튼
 	$('#send_message').on('click', function() {
-		location.href = 'sendmessage.do?id=' + memid;
+		location.href = 'sendmessage.do';
 	});
 
 	// 쪽지 보내기 버튼
 	$('#write_message').on('click', function() {
-		location.href = 'writemessage.do?id=' + memid;
+		location.href = 'writemessage.do';
 	});
 
 	
 	$('#write_btn').on('click',function(){
-		location.href = 'writemessage.do?id=' + memid;
+		location.href = 'writemessage.do';
 	});
 	
 	
@@ -36,7 +36,7 @@
 			type : 'get',
 			url : 'delmsg.do?data=' + arr,
 			success : function(res) {
-				location.href = 'gotomessage.do?id=' + memid;
+				location.href = 'gotomessage.do';
 			}
 		});
 
@@ -54,7 +54,7 @@
 
 	// 받은 쪽지함 뷰 : 리스트 버튼
 	$('#gotomsg_btn').on('click', function() {
-		location.href = 'gotomessage.do?id=' + memid;
+		location.href = 'gotomessage.do';
 	});
 	// 받은 쪽지함 뷰 : 삭제 버튼
 	$('#delmesg_btn').on('click', function() {
@@ -68,7 +68,7 @@
 
 	// 보낸 쪽지함 뷰 : 리스트 버튼
 	$('#sendgotomsg_btn').on('click', function() {
-		location.href = 'sendmessage.do?id=' + memid;
+		location.href = 'sendmessage.do';
 	});
 
 	// 보낸 쪽지함 뷰 : 삭제 버튼
@@ -100,7 +100,7 @@
 			type : 'get',
 			url : 'senddelmsg.do?data=' + arr,
 			success : function(res) {
-				location.href = 'sendmessage.do?id=' + memid;
+				location.href = 'sendmessage.do';
 			}
 		});
 

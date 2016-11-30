@@ -9,10 +9,10 @@
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <!-- <link rel="stylesheet" href="css/reset.css" /> -->
 <link rel="stylesheet" href="css/mypage.css?ver=2" />
-<script type="text/javascript" src="js/mine.js?ver=2"></script>
+<script type="text/javascript" src="js/mine.js?ver=3"></script>
 <script type="text/javascript">
-	var mdto_id = "${mdto[0].id}";
-	var mdto_allow_chk = "${mdto[0].allow_chk}";
+	var mdto_id = "${sessionScope.mem.id}";
+	var mdto_allow_chk = "${sessionScope.mem.allow_chk}";
 	var pub_chk = "${sellreserv[0].p_pub_chk}";
 </script>
 </head>

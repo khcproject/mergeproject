@@ -67,7 +67,7 @@
 	<insert id="replyinsert" parameterType="dto.Pr_replyDTO">
 		insert into
 		pr_reply
-		values(SEQ_pr_reply_pr_num.nextval, 'cus',
+		values(SEQ_pr_reply_pr_num.nextval, 'customer',
 		#{p_num},
 		0,
 		#{pr_content})

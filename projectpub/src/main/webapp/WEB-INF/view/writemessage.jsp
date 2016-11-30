@@ -13,7 +13,7 @@
 <script type="text/javascript" src="js/message.js?ver=2"></script>
 <link href="css/bootstrap.min.css" rel="stylesheet" />
 <script type="text/javascript">
-	var memid = "${memid}";
+	/* var memid = "${memid}"; */
 	
 	function process() {
 		$('[name=t_message]').val(
@@ -42,7 +42,7 @@
 		<div class="mainmenu">
 
 			<div class="head_ment">
-				<span>${memid}님의 새쪽지쓰기 입니다.</span>
+				<span>${sessionScope.mem.id}님의 새쪽지쓰기 입니다.</span>
 			</div>
 			<br/>
 			<br/>
@@ -84,7 +84,7 @@
 				<input type="button"  id="writeok_btn" value="보내기">
 				<input type="button"  id="writecancle_btn" value="취소">
 				</div>
-				<input type="hidden" name="id" value="${memid}"/>
+		 	<input type="hidden" name="id" value="${sessionScope.mem.id}"/>
 				
 			</form>
 			

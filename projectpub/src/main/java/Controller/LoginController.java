@@ -46,13 +46,17 @@ public class LoginController {
 		if (mm == null) {
 			map.put("chk", "아이디 비밀번호를 확인하세요.");
 		} else {
-
-			session.setMaxInactiveInterval(30 * 60); // 30분
-			session.setAttribute("mem", mm);
-			map.put("href", "mainview.do");
+			if (mm.getEmail_agree().equals("Y")) {
+				session.setMaxInactiveInterval(30 * 60); // 30분
+				session.setAttribute("mem", mm);
+				service.logTimeProcess(dto);
+				map.put("href", "mainview.do");
+			} else {
+				map.put("chk", "이메일인증을 해주세요.");
+			}
 		}
 		return map;
-		
+
 	}
 
 	// 회원가입
@@ -61,6 +65,7 @@ public class LoginController {
 		ModelAndView mav = new ModelAndView();
 
 		service.memberInsertProcess(dto);
+		MailSend mailSend = new MailSend(dto);
 
 		mav.setViewName("login");
 		return mav;
@@ -79,6 +84,40 @@ public class LoginController {
 			return value;
 		}
 		// System.out.println(value);
+	}
+
+	// 인증화면
+	@RequestMapping(value = "/loginchk.do", method = RequestMethod.GET)
+	public String loginchkMethod() {
+
+		return "loginchk";
+	}
+
+	// 인증버튼
+	@RequestMapping(value = "/loginchk.do", method = RequestMethod.POST)
+	public String loginchkUpdateMethod(String id) {
+		service.emailagreeUpdateProcess(id);
+
+		return "main";
+	}
+
+	// 로그인
+	@RequestMapping(value = "/pwfind.do", method = RequestMethod.POST)
+	public @ResponseBody HashMap<String, String> pwFindMethod(MemDTO dto, HttpSession session) {
+		MemDTO mm = service.pwFindProcess(dto);
+
+		HashMap<String, String> map = new HashMap<String, String>();
+
+		if (mm == null) {
+			map.put("no", "아이디와 이메일을 확인해주세요.");
+		} else {
+			// 이메일 발송!!!
+			PwMailSend pw = new PwMailSend(service.pwFindProcess(dto));
+			map.put("ok", "비밀번호가 이메일로 발송되었습니다.");
+			map.put("href", "login.do");
+		}
+		return map;
+
 	}
 
 }// end class

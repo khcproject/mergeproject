@@ -5,10 +5,6 @@
 	$(document).on('click', '#sellallow_btn', ablereserv);
 	// 판매자 예약 취소 버튼
 	$(document).on('click', '#sellcanncle_btn', disablereserv);
-	// 관리자 : 판매자 신청 허락 버튼
-	$(document).on('click', '#adminallow_btn', ablesell);
-	// 관리자 : 판매자 신청 거부 버튼
-	$(document).on('click', '#admincancle_btn', disablesell);
 	// 회원정보 수정 버튼
 	$(document).on('click', '#update_profile', memuptint);
 	// 회원탈퇴 버튼
@@ -118,7 +114,7 @@ function delcusreserv() {
 		url : 'delcusreserv.do',
 		data : 'res_num=' + $(this).val() + '&id=' + mdto_id,
 		success : function() {
-			location.href = 'testcus.do?id=' + mdto_id;
+			location.href = 'mypage.do';
 		},
 		error : function(xhr, textStatus, error) {
 			alert(xhr.stauts + "," + textStatus + "," + error);
@@ -133,7 +129,7 @@ function ablereserv() {
 		url : 'ablereserv.do',
 		data : 'res_num=' + $(this).val()+'&c_num='+$('#reserv_cnum').val(),
 		success : function() {
-			location.href = 'testsell.do?id=' + mdto_id;
+			location.href = 'mypage.do';
 		},
 		error : function(xhr, textStatus, error) {
 			alert(xhr.stauts + "," + textStatus + "," + error);
@@ -149,7 +145,7 @@ function disablereserv() {
 		url : 'disablereserv.do',
 		data : 'res_num=' + $(this).val(),
 		success : function() {
-			location.href = 'testsell.do?id=' + mdto_id;
+			location.href = 'mypage.do';
 		},
 		error : function(xhr, textStatus, error) {
 			alert(xhr.stauts + "," + textStatus + "," + error);
@@ -158,40 +154,9 @@ function disablereserv() {
 
 };// end disablereserv()////////////
 
-function ablesell() {
-	$.ajax({
-		type : 'POST',
-		dataType : 'text',
-		url : 'ablesell.do',
-		data : 'id=' + $(this).val(),
-		success : function() {
-			location.href = 'testadmin.do?id=' + mdto_id;
-		},
-		error : function(xhr, textStatus, error) {
-			alert(xhr.stauts + "," + textStatus + "," + error);
-		}
-	});
-
-};// end ablesell()/////////////
-
-function disablesell() {
-	$.ajax({
-		type : 'POST',
-		dataType : 'text',
-		url : 'disablesell.do',
-		data : 'id=' + $(this).val(),
-		success : function() {
-			location.href = 'testadmin.do?id=' + mdto_id;
-		},
-		error : function(xhr, textStatus, error) {
-			alert(xhr.stauts + "," + textStatus + "," + error);
-		}
-	});
-
-};// end disablesell()/////////////
 
 function memuptint() {
-	location.href = 'memberupt.do?id=' + mdto_id;
+	location.href = 'memberupt.do';
 };// end memuptint()/////////////
 
 function memuptok() {
@@ -317,7 +282,7 @@ function pwokproc(){
 
 
 function leaveready(){
-	location.href = 'leaveready.do?id=' + mdto_id;
+	location.href = 'leaveready.do';
 
 };//end leaveready()////////////
 
@@ -326,7 +291,7 @@ function joinsell(){
 		alert("현재 신청중입니다.");
 		return false;
 	}
-	location.href = 'joinseller.do?id=' + mdto_id;
+	location.href = 'joinseller.do';
 };//end joinsell()////////////
 
 function joinsellok(){
@@ -348,7 +313,7 @@ function joinpubready(){
 		alert("현재 신청중입니다.");
 		return false;
 	}
-	location.href = 'joinpub.do?id=' + mdto_id;
+	location.href = 'joinpub.do';
 };//end joinpubready()///////////
 
 
@@ -455,7 +420,7 @@ function joinpubok(){
 };//end joinpubok()///////////
 
 function reservalllist(){
-	location.href = 'sellreservlist.do?id=' + mdto_id;
+	location.href = 'sellreservlist.do';
 };//end reservalllist()/////////////
 
 function sellreservok(){
@@ -465,7 +430,7 @@ function sellreservok(){
 		url : 'ablereserv.do',
 		data : 'res_num=' + $(this).val()+'&c_num='+$('#reserv_cnum').val(),
 		success : function() {
-			location.href = 'sellreservlist.do?id=' + mdto_id+'&currentPage='+currentPage;
+			location.href = 'sellreservlist.do?currentPage='+currentPage;
 		},
 		error : function(xhr, textStatus, error) {
 			alert(xhr.stauts + "," + textStatus + "," + error);
@@ -480,7 +445,7 @@ function sellreservno(){
 		url : 'disablereserv.do',
 		data : 'res_num=' + $(this).val(),
 		success : function() {
-			location.href = 'sellreservlist.do?id=' + mdto_id+'&currentPage='+currentPage;
+			location.href = 'sellreservlist.do?currentPage='+currentPage;
 		},
 		error : function(xhr, textStatus, error) {
 			alert(xhr.stauts + "," + textStatus + "," + error);
@@ -490,7 +455,7 @@ function sellreservno(){
 
 function gotomessage(){
 	
-		var popUrl = 'gotomessage.do?id='+mdto_id;	
+		var popUrl = 'gotomessage.do';	
 		var popOption = "width=780, height=500, resizable=no, scrollbars=no, top=200, left=600, status=no;";    
 			window.open(popUrl,"",popOption);
 	
@@ -529,7 +494,7 @@ function jpmimgchange(input){
 };//end jpmimgchange()///////////
 
 function updatepub(){
-	location.href = 'updatepub.do?id=' + mdto_id;
+	location.href = 'updatepub.do';
 };//end updatepub()////////
 
 function upsimgchange(input){

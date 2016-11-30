@@ -11,12 +11,13 @@
 	
 	<!-- 소비자 전체 인원 -->
 	<select id="concount" resultType="int">
-		select count(*) from members where allow_chk = 'R' or allow_chk='N'
+		select count(*) from members where userchk='C'
 	</select>
 	
-	<!-- 판매자 수 -->
+	<!-- 판매자 수  -->
 	<select id="memycount" resultType="int">
-		select count(*) from members where allow_chk = 'Y'
+		<!-- 수정 -->
+	    select count(*) from members where userchk = 'S'
 	</select>
 	
 	<!-- 펍저장하기 -->
@@ -24,12 +25,6 @@
 		insert into pub
 		values(SEQ_pub_p_num.nextval,'test18',#{p_mupload},#{p_supload},#{p_title},#{p_contents},#{p_address},#{p_maxpeople},'Y')
 	</insert>
-
-	<!-- 랭킹별 사진 가져오기 -->
-	<select id="get" resultType="dto.PubDTO">
-		select a.*, b.s_stars from PUB a, STARS b where a.p_num = b.p_num order by
-		b.s_stars desc
-	</select>
 
 	<!-- 전체 펍 4개씩 가져오기 -->
 	<select id="list" parameterType="dto.PubPageDTO" resultType="dto.PubDTO">
@@ -61,7 +56,7 @@ from(select * from pub where (p_address like '%'||#{search}||'%' or p_title like
 
 	<select id="managero" parameterType="String">
 		update members
-		set allow_chk = 'Y'
+		set allow_chk = 'Y' ,userchk='S'
 		where id=#{id}
 
 	</select>
@@ -86,19 +81,19 @@ from(select * from pub where (p_address like '%'||#{search}||'%' or p_title like
 
 	<select id="dates" resultType="String">
 		select dates
-		from members
+		from members where userchk!='A'
 	</select>
 	
 	<select id="memtotal" resultType="int">
-	    select count(*) from members
+	    select count(*) from members where userchk!='A'
 	</select>
 	
 	<select id="mwcount" resultType="String">
-		select sex from members
+		select sex from members where userchk!='A'
 	</select>
 	
 	<select id="birth" resultType="String">
-		select birth from members	    
+		select birth from members where userchk!='A'	    
 	</select>
 	
 	<!-- 판매자 등업 인원 -->
@@ -183,5 +178,38 @@ from members m, pub p
 where m.id=p.id(+) and m.id=#{id}
 </select>
 <!-- END 펍 수정 정보 -->
+
+<resultMap type="dto.PubDTO" id="mem_star"
+		autoMapping="false">
+		<result column="p_num" property="p_num" />
+		<result column="id" property="id" />
+		<result column="p_mupload" property="p_mupload" />
+		<result column="p_supload" property="p_supload" />
+		<result column="p_title" property="p_title" />
+		<result column="p_contents" property="p_contents" />
+		<result column="p_address" property="p_address" />
+		<result column="p_maxpeople" property="p_maxpeople" />
+		<result column="p_pub_chk" property="p_pub_chk" />
+		<result column="p_addr_post" property="p_addr_post" />
+		<!-- <result column="p_addr_post" property="p_addr_post"/> -->
+		<association property="star" javaType="dto.StarsDTO">
+			<result column="s_stars" property="s_stars" />
+		</association>
+	</resultMap>
+
+	<select id="memstar" resultMap="mem_star">
+select round(avg(s_stars),1) as s_stars from stars where p_num= #{p_num}
+	</select>
 	
+	<!-- 랭킹별 사진 가져오기 -->
+	<select id="get" resultMap="mem_star">
+		select p.*, a.*
+from(select p_num,round(avg(s_stars),1) as s_stars from stars group by p_num order by s_stars desc) a, pub p
+where p.p_num = a.p_num(+) and p.p_pub_chk ='Y'
+	</select>
+	
+	<!-- 야매 -->
+	<select id="lid" resultType="dto.StarsDTO">
+	    select p_num,round(avg(s_stars),1) as s_stars from stars group by p_num
+	</select>
 </mapper>

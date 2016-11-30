@@ -33,26 +33,27 @@ select * from user_constraints
 ALTER TABLE pub
 DROP CONSTRAINT sys_c004337
 
+
 --등급조정
 --customer 회원필요(구매자)
-update members set userchk='C' where id='cus';
+update members set userchk='S' where id='snowwalk';
 update members set birth='1985-09-02';
 --sell2 회원필요(판매자)
 --cus2 예약 삭제 회원필요(구매자)  11/14추가
 --sell3 회원필요(등업테스트) 11/15추가
-update members set userchk='C' where id='cus';
 update members set userchk='C' where id='customer';
-update members set userchk='A' where id='admin';
+update members set userchk='S' where id='selltest';
+update members set userchk='A' where id='adminadmin';
 update members set allow_chk='N' where id='cus';
 update members set allow_chk='R' where id='sell2';
-update members set allow_chk='Y' where id='sell';
+update members set allow_chk='Y' where id='selltest';
+update members set email_agree='Y' where id='adminadmin';
 
 --coupon 등록
 insert into coupon values(SEQ_coupon_c_num.nextval,'cus','c_contents','c_coupon',to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N');
 insert into coupon values(SEQ_coupon_c_num.nextval,'cus','c_contents2','c_coupon2',to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N');
 insert into coupon values(SEQ_coupon_c_num.nextval,'sell','c_contents','c_coupon',to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N');
 select * from coupon
-
 update coupon set c_use='N' where c_num=1
 
 
@@ -61,7 +62,7 @@ insert into pub values(SEQ_pub_p_num.nextval,'sell','abcd.jpg','efgh.jpg','title
 insert into pub values(SEQ_pub_p_num.nextval,'sell2','mupload','supload','title','contents','address','15','N');
 select * from pub
 delete from pub 
-update pub set p_pub_chk='R' where id='sell'
+update pub set p_pub_chk='Y' where id='selltest'
  
 
 --reservation 등록

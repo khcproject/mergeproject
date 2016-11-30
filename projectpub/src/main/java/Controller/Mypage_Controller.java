@@ -71,37 +71,21 @@ public class Mypage_Controller {
 		mservice.disableReservProcess(rdto);
 	};
 
-	// 관리자 : 판매자 신청 수락
-	@RequestMapping("/ablesell.do")
-	public @ResponseBody void ablesellMethod(MemDTO mdto) {
-		mservice.ableSellAllProcess(mdto);
-	};
-
-	// 관리자 : 판매자 신청 거부
-	@RequestMapping("/disablesell.do")
-	public @ResponseBody void disablesellMethod(MemDTO mdto) {
-		mservice.disableSellAllProcess(mdto);
-	};
-
 	// 회원정보 수정 들어가기
 	@RequestMapping(value = "/memberupt.do", method = RequestMethod.GET)
-	public ModelAndView memberupdateMethod(MemDTO mdto) {
+	public ModelAndView memberupdateMethod(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
 		// mav.addObject("mdto", mservice.memuptintProcess(mdto));
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
+		//MemDTO memdto = mservice.memuptintProcess(mdto);
 
-		MemDTO memdto = mservice.memuptintProcess(mdto);
-
-		if (memdto.getUserchk().equals("C")) {
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("cusreserv", mservice.mypageCusReservProcess(memdto.getId()));
-		} else if (memdto.getUserchk().equals("S")) {// usrechk=S일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("sellreserv", mservice.mypageSellReservProcess(memdto.getId()));
-		} else {// userchk=A일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("adminsellchk", mservice.mypageAdminSellProcess());
-			mav.addObject("adminpubchk", mservice.mypageAdminPubProcess());
+		if (mem.getUserchk().equals("C")) {
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("cusreserv", mservice.mypageCusReservProcess(mem.getId()));
+		} else if (mem.getUserchk().equals("S")) {// usrechk=S일경우
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("sellreserv", mservice.mypageSellReservProcess(mem.getId()));
 		}
 
 		mav.setViewName("beforemempw");
@@ -110,46 +94,41 @@ public class Mypage_Controller {
 
 	// 회원정보 PW 체크
 	@RequestMapping(value = "/mempwchk.do", method = RequestMethod.POST)
-	public ModelAndView mempwchkMethod(MemDTO mdto) {
+	public ModelAndView mempwchkMethod(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		// mav.addObject("mdto", mservice.memuptintProcess(mdto));
 
-		MemDTO memdto = mservice.memuptintProcess(mdto);
-
-		if (memdto.getUserchk().equals("C")) {
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("cusreserv", mservice.mypageCusReservProcess(memdto.getId()));
-		} else if (memdto.getUserchk().equals("S")) {// usrechk=S일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("sellreserv", mservice.mypageSellReservProcess(memdto.getId()));
-		} else {// userchk=A일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("adminsellchk", mservice.mypageAdminSellProcess());
-			mav.addObject("adminpubchk", mservice.mypageAdminPubProcess());
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
+		
+		if (mem.getUserchk().equals("C")) {
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("cusreserv", mservice.mypageCusReservProcess(mem.getId()));
+		} else if (mem.getUserchk().equals("S")) {// usrechk=S일경우
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("sellreserv", mservice.mypageSellReservProcess(mem.getId()));
 		}
-
 		mav.setViewName("memberupdate");
 		return mav;
 	};
 
 	// 회원정보 수정 완료
 	@RequestMapping(value = "/memberupdate.do", method = RequestMethod.POST)
-	public ModelAndView memberupdateOkMethod(MemDTO mdto, HttpServletRequest req) {
+	public ModelAndView memberupdateOkMethod(MemDTO mdto, HttpServletRequest req,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
 		mservice.memuptokProcess(mdto, req);
-
-		if (mdto.getUserchk().equals("C")) {
-			mav.addObject("mdto", mservice.mypageCouponProcess(mdto.getId()));
-			mav.addObject("cusreserv", mservice.mypageCusReservProcess(mdto.getId()));
-		} else if (mdto.getUserchk().equals("S")) {// usrechk=S일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(mdto.getId()));
-			mav.addObject("sellreserv", mservice.mypageSellReservProcess(mdto.getId()));
-		} else {// userchk=A일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(mdto.getId()));
-			mav.addObject("adminsellchk", mservice.mypageAdminSellProcess());
-			mav.addObject("adminpubchk", mservice.mypageAdminPubProcess());
-		}
+	    session.removeAttribute("mem");
+		MemDTO mem = mservice.memuptintProcess(mdto);
+		session.setAttribute("mem", mem);  
+		
+		
+		if (mem.getUserchk().equals("C")) {
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("cusreserv", mservice.mypageCusReservProcess(mem.getId()));
+		} else if (mem.getUserchk().equals("S")) {
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("sellreserv", mservice.mypageSellReservProcess(mem.getId()));
+		} 
 
 		mav.setViewName("mypage");
 		return mav;
@@ -157,54 +136,47 @@ public class Mypage_Controller {
 
 	// 회원탈퇴 들어가기
 	@RequestMapping(value = "/leaveready.do", method = RequestMethod.GET)
-	public ModelAndView leavereadyMethod(MemDTO mdto) {
+	public ModelAndView leavereadyMethod(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		// mav.addObject("mdto", mservice.memDelListProcess(mdto));
 
-		MemDTO memdto = mservice.memuptintProcess(mdto);
-
-		if (memdto.getUserchk().equals("C")) {
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("cusreserv", mservice.mypageCusReservProcess(memdto.getId()));
-		} else if (memdto.getUserchk().equals("S")) {// usrechk=S일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("sellreserv", mservice.mypageSellReservProcess(memdto.getId()));
-		} else {// userchk=A일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("adminsellchk", mservice.mypageAdminSellProcess());
-			mav.addObject("adminpubchk", mservice.mypageAdminPubProcess());
-		}
-
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
+		
+		
+		if (mem.getUserchk().equals("C")) {
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("cusreserv", mservice.mypageCusReservProcess(mem.getId()));
+		} else if (mem.getUserchk().equals("S")) {// usrechk=S일경우
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("sellreserv", mservice.mypageSellReservProcess(mem.getId()));
+		} 
 		mav.setViewName("leaveus");
 		return mav;
 	};
 
 	// 회원 탈퇴 완료
 	@RequestMapping(value = "/leaveus.do", method = RequestMethod.GET)
-	public String leaveMethod(MemDTO mdto, HttpServletRequest req) {
+	public String leaveMethod(MemDTO mdto, HttpServletRequest req,HttpSession session) {
 		mservice.memDelProcess(mdto, req);
+		session.invalidate();
 		return "redirect:/index.do";
 	};
 
 	// 판매자 신청 들어가기
 	@RequestMapping(value = "/joinseller.do", method = RequestMethod.GET)
-	public ModelAndView joinsellerMethod(MemDTO mdto) {
+	public ModelAndView joinsellerMethod(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		// mav.addObject("mdto", mservice.memuptintProcess(mdto));
 
-		MemDTO memdto = mservice.memuptintProcess(mdto);
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
 
-		if (memdto.getUserchk().equals("C")) {
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("cusreserv", mservice.mypageCusReservProcess(memdto.getId()));
-		} else if (memdto.getUserchk().equals("S")) {// usrechk=S일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("sellreserv", mservice.mypageSellReservProcess(memdto.getId()));
-		} else {// userchk=A일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("adminsellchk", mservice.mypageAdminSellProcess());
-			mav.addObject("adminpubchk", mservice.mypageAdminPubProcess());
-		}
+		if (mem.getUserchk().equals("C")) {
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("cusreserv", mservice.mypageCusReservProcess(mem.getId()));
+		} else if (mem.getUserchk().equals("S")) {// usrechk=S일경우
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("sellreserv", mservice.mypageSellReservProcess(mem.getId()));
+		} 
 
 		mav.setViewName("joinseller");
 		return mav;
@@ -212,22 +184,20 @@ public class Mypage_Controller {
 
 	// 판매자 신청 완료
 	@RequestMapping(value = "/joinseller.do", method = RequestMethod.POST)
-	public ModelAndView endjoinsellerMethod(MemDTO mdto) {
+	public ModelAndView endjoinsellerMethod(MemDTO mdto,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		mservice.joinSellerProcess(mdto);
 
-		MemDTO memdto = mservice.memuptintProcess(mdto);
+	    session.removeAttribute("mem");
+		MemDTO mem = mservice.memuptintProcess(mdto);
+		session.setAttribute("mem", mem);
 
-		if (memdto.getUserchk().equals("C")) {
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("cusreserv", mservice.mypageCusReservProcess(memdto.getId()));
-		} else if (memdto.getUserchk().equals("S")) {// usrechk=S일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("sellreserv", mservice.mypageSellReservProcess(memdto.getId()));
-		} else {// userchk=A일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("adminsellchk", mservice.mypageAdminSellProcess());
-			mav.addObject("adminpubchk", mservice.mypageAdminPubProcess());
+		if (mem.getUserchk().equals("C")) {
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("cusreserv", mservice.mypageCusReservProcess(mem.getId()));
+		} else if (mem.getUserchk().equals("S")) {// usrechk=S일경우
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("sellreserv", mservice.mypageSellReservProcess(mem.getId()));
 		}
 
 		mav.setViewName("mypage");
@@ -236,22 +206,18 @@ public class Mypage_Controller {
 
 	// Pub 신청 들어가기
 	@RequestMapping(value = "/joinpub.do", method = RequestMethod.GET)
-	public ModelAndView joinpubreadyMethod(MemDTO mdto) {
+	public ModelAndView joinpubreadyMethod(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		// mav.addObject("mdto", mservice.memuptintProcess(mdto));
 
-		MemDTO memdto = mservice.memuptintProcess(mdto);
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
 
-		if (memdto.getUserchk().equals("C")) {
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("cusreserv", mservice.mypageCusReservProcess(memdto.getId()));
-		} else if (memdto.getUserchk().equals("S")) {// usrechk=S일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("sellreserv", mservice.mypageSellReservProcess(memdto.getId()));
-		} else {// userchk=A일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(memdto.getId()));
-			mav.addObject("adminsellchk", mservice.mypageAdminSellProcess());
-			mav.addObject("adminpubchk", mservice.mypageAdminPubProcess());
+		if (mem.getUserchk().equals("C")) {
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("cusreserv", mservice.mypageCusReservProcess(mem.getId()));
+		} else if (mem.getUserchk().equals("S")) {// usrechk=S일경우
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("sellreserv", mservice.mypageSellReservProcess(mem.getId()));
 		}
 
 		mav.setViewName("joinpub");
@@ -260,24 +226,21 @@ public class Mypage_Controller {
 
 	// pub 등록 신청 완료
 	@RequestMapping(value = "/joinpub.do", method = RequestMethod.POST)
-	public ModelAndView joinpubokMethod(PubDTO pdto, HttpServletRequest req) {
+	public ModelAndView joinpubokMethod(PubDTO pdto, HttpServletRequest req,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		mservice.pubInsAllProcess(pdto, req);
 
-		MemDTO mdto = mservice.meminfoProcess(pdto.getId());
-		// userchk=C일경우
-		if (mdto.getUserchk().equals("C")) {
-			mav.addObject("mdto", mservice.mypageCouponProcess(mdto.getId()));
-			mav.addObject("cusreserv", mservice.mypageCusReservProcess(mdto.getId()));
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
+		
+		
+		if (mem.getUserchk().equals("C")) {
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("cusreserv", mservice.mypageCusReservProcess(mem.getId()));
 
-		} else if (mdto.getUserchk().equals("S")) {// usrechk=S일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(mdto.getId()));
-			mav.addObject("sellreserv", mservice.mypageSellReservProcess(mdto.getId()));
-		} else {// userchk=A일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(mdto.getId()));
-			mav.addObject("adminsellchk", mservice.mypageAdminSellProcess());
-			mav.addObject("adminpubchk", mservice.mypageAdminPubProcess());
-		}
+		} else if (mem.getUserchk().equals("S")) {// usrechk=S일경우
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("sellreserv", mservice.mypageSellReservProcess(mem.getId()));
+		} 
 
 		mav.setViewName("mypage");
 
@@ -286,9 +249,12 @@ public class Mypage_Controller {
 
 	// 판매자 : 전체 예약리스트
 	@RequestMapping(value = "/sellreservlist.do", method = RequestMethod.GET)
-	public ModelAndView reservlistMethod(ReservPageDTO pv, String id) {
+	public ModelAndView reservlistMethod(ReservPageDTO pv, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		int totalRecord = mservice.reservListNumProcess(id);
+		
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
+		
+		int totalRecord = mservice.reservListNumProcess(mem.getId());
 		if (totalRecord >= 1) {
 			if (pv.getCurrentPage() == 0)
 				ReservcurrentPage = 1;
@@ -298,7 +264,7 @@ public class Mypage_Controller {
 			reservpdto = new ReservPageDTO(ReservcurrentPage, totalRecord);
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("id", id);
+			map.put("id", mem.getId());
 			map.put("pv", reservpdto);
 
 			mav.addObject("pv", reservpdto);
@@ -309,17 +275,12 @@ public class Mypage_Controller {
 			mav.addObject("pv", reservpdto);
 		}
 
-		MemDTO mdto = mservice.meminfoProcess(id);
-		if (mdto.getUserchk().equals("C")) {
-			mav.addObject("mdto", mservice.mypageCouponProcess(mdto.getId()));
-			mav.addObject("cusreserv", mservice.mypageCusReservProcess(mdto.getId()));
-		} else if (mdto.getUserchk().equals("S")) {// usrechk=S일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(mdto.getId()));
-		} else {// userchk=A일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(mdto.getId()));
-			mav.addObject("adminsellchk", mservice.mypageAdminSellProcess());
-			mav.addObject("adminpubchk", mservice.mypageAdminPubProcess());
-		}
+		if (mem.getUserchk().equals("C")) {
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("cusreserv", mservice.mypageCusReservProcess(mem.getId()));
+		} else if (mem.getUserchk().equals("S")) {// usrechk=S일경우
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+		} 
 
 		// mav.addObject("mdto",mdto);
 		mav.setViewName("reservlist");
@@ -329,9 +290,10 @@ public class Mypage_Controller {
 
 	// PUB 수정 들어가기
 	@RequestMapping(value = "/updatepub.do", method = RequestMethod.GET)
-	public ModelAndView updatepubMethod(String id) {
+	public ModelAndView updatepubMethod(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("mdto", mservice.updatePubProcess(id));
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
+		mav.addObject("mdto", mservice.updatePubProcess(mem.getId()));
 		mav.setViewName("updatepub");
 		return mav;
 
@@ -339,25 +301,21 @@ public class Mypage_Controller {
 
 	// PUB 수정 완료
 	@RequestMapping(value = "/updatepub.do", method = RequestMethod.POST)
-	public ModelAndView updatepubokMethod(PubDTO pdto, HttpServletRequest req) {
+	public ModelAndView updatepubokMethod(PubDTO pdto, HttpServletRequest req, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
 		mservice.updatePubOkProcess(pdto, req);
 
-		MemDTO mdto = mservice.meminfoProcess(pdto.getId());
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
 		// userchk=C일경우
-		if (mdto.getUserchk().equals("C")) {
-			mav.addObject("mdto", mservice.mypageCouponProcess(mdto.getId()));
-			mav.addObject("cusreserv", mservice.mypageCusReservProcess(mdto.getId()));
+		if (mem.getUserchk().equals("C")) {
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("cusreserv", mservice.mypageCusReservProcess(mem.getId()));
 
-		} else if (mdto.getUserchk().equals("S")) {// usrechk=S일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(mdto.getId()));
-			mav.addObject("sellreserv", mservice.mypageSellReservProcess(mdto.getId()));
-		} else {// userchk=A일경우
-			mav.addObject("mdto", mservice.mypageCouponProcess(mdto.getId()));
-			mav.addObject("adminsellchk", mservice.mypageAdminSellProcess());
-			mav.addObject("adminpubchk", mservice.mypageAdminPubProcess());
-		}
+		} else if (mem.getUserchk().equals("S")) {// usrechk=S일경우
+			mav.addObject("mdto", mservice.mypageCouponProcess(mem.getId()));
+			mav.addObject("sellreserv", mservice.mypageSellReservProcess(mem.getId()));
+		} 
 
 		mav.setViewName("mypage");
 		return mav;
@@ -365,10 +323,11 @@ public class Mypage_Controller {
 
 	// 받은 쪽지함
 	@RequestMapping(value = "/gotomessage.do", method = RequestMethod.GET)
-	public ModelAndView respmsglistMethod(String id, MessagePageDTO pv) {
+	public ModelAndView respmsglistMethod(HttpSession session, MessagePageDTO pv) {
 		ModelAndView mav = new ModelAndView();
 
-		int totalRecord = mservice.respMsgCountProcess(id);
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
+		int totalRecord = mservice.respMsgCountProcess(mem.getId());
 
 		if (totalRecord >= 1) {
 			if (pv.getCurrentPage() == 0)
@@ -379,16 +338,16 @@ public class Mypage_Controller {
 			mesgpdto = new MessagePageDTO(respMsgCurrentPage, totalRecord);
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("id", id);
+			map.put("id", mem.getId());
 			map.put("pv", mesgpdto);
 
-			mav.addObject("memid", id);
+			//mav.addObject("memid",mem.getId());
 			mav.addObject("pv", mesgpdto);
 			mav.addObject("respMsg", mservice.respMsgListProcess(map));
 		} else {
 			respMsgCurrentPage = 1;
 			mesgpdto = new MessagePageDTO(respMsgCurrentPage, totalRecord);
-			mav.addObject("memid", id);
+			//mav.addObject("memid", mem.getId());
 			mav.addObject("pv", mesgpdto);
 		}
 
@@ -404,11 +363,12 @@ public class Mypage_Controller {
 
 	// 받은 쪽지함 검색
 	@RequestMapping(value = "/searchmsg.do", method = RequestMethod.GET)
-	public ModelAndView searchMsgMethod(String searchop, String searchworld, String id, MessagePageDTO pv) {
+	public ModelAndView searchMsgMethod(String searchop, String searchworld, HttpSession session, MessagePageDTO pv) {
 		ModelAndView mav = new ModelAndView();
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
 		if (searchop.equals("subject")) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("id", id);
+			map.put("id", mem.getId());
 			map.put("searchworld", searchworld);
 			int totalRecord = mservice.searchSubjectCountProcess(map);
 
@@ -421,11 +381,11 @@ public class Mypage_Controller {
 				mesgpdto = new MessagePageDTO(searchMsgCurrentPage, totalRecord);
 
 				HashMap<String, Object> map2 = new HashMap<String, Object>();
-				map2.put("id", id);
+				map2.put("id", mem.getId());
 				map2.put("searchworld", searchworld);
 				map2.put("pv", mesgpdto);
 
-				mav.addObject("memid", id);
+				//mav.addObject("memid", mem.getId());
 				mav.addObject("searchop", searchop);
 				mav.addObject("searchworld", searchworld);
 				mav.addObject("spv", mesgpdto);
@@ -433,7 +393,7 @@ public class Mypage_Controller {
 			} else {
 				searchMsgCurrentPage = 1;
 				mesgpdto = new MessagePageDTO(searchMsgCurrentPage, totalRecord);
-				mav.addObject("memid", id);
+				//mav.addObject("memid", mem.getId());
 				mav.addObject("spv", mesgpdto);
 			}
 		}
@@ -442,7 +402,7 @@ public class Mypage_Controller {
 		if (searchop.equals("contents")) {
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("id", id);
+			map.put("id", mem.getId());
 			map.put("searchworld", searchworld);
 			int totalRecord = mservice.searchContentsCountProcess(map);
 
@@ -455,11 +415,11 @@ public class Mypage_Controller {
 				mesgpdto = new MessagePageDTO(searchMsgCurrentPage, totalRecord);
 
 				HashMap<String, Object> map2 = new HashMap<String, Object>();
-				map2.put("id", id);
+				map2.put("id", mem.getId());
 				map2.put("searchworld", searchworld);
 				map2.put("pv", mesgpdto);
 
-				mav.addObject("memid", id);
+				//mav.addObject("memid", mem.getId());
 				mav.addObject("searchop", searchop);
 				mav.addObject("searchworld", searchworld);
 				mav.addObject("spv", mesgpdto);
@@ -467,7 +427,7 @@ public class Mypage_Controller {
 			} else {
 				searchMsgCurrentPage = 1;
 				mesgpdto = new MessagePageDTO(searchMsgCurrentPage, totalRecord);
-				mav.addObject("memid", id);
+				//mav.addObject("memid", mem.getId());
 				mav.addObject("spv", mesgpdto);
 			}
 
@@ -477,7 +437,7 @@ public class Mypage_Controller {
 		if (searchop.equals("subandcon")) {
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("id", id);
+			map.put("id", mem.getId());
 			map.put("searchworld", searchworld);
 			int totalRecord = mservice.searchDoubleCountProcess(map);
 
@@ -490,11 +450,11 @@ public class Mypage_Controller {
 				mesgpdto = new MessagePageDTO(searchMsgCurrentPage, totalRecord);
 
 				HashMap<String, Object> map2 = new HashMap<String, Object>();
-				map2.put("id", id);
+				map2.put("id", mem.getId());
 				map2.put("searchworld", searchworld);
 				map2.put("pv", mesgpdto);
 
-				mav.addObject("memid", id);
+				//mav.addObject("memid", mem.getId());
 				mav.addObject("searchop", searchop);
 				mav.addObject("searchworld", searchworld);
 				mav.addObject("spv", mesgpdto);
@@ -502,7 +462,7 @@ public class Mypage_Controller {
 			} else {
 				searchMsgCurrentPage = 1;
 				mesgpdto = new MessagePageDTO(searchMsgCurrentPage, totalRecord);
-				mav.addObject("memid", id);
+				//mav.addObject("memid", mem.getId());
 				mav.addObject("spv", mesgpdto);
 			}
 
@@ -512,7 +472,7 @@ public class Mypage_Controller {
 		if (searchop.equals("searchid")) {
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("id", id);
+			map.put("id", mem.getId());
 			map.put("searchworld", searchworld);
 			int totalRecord = mservice.searchIdCountProcess(map);
 
@@ -525,11 +485,11 @@ public class Mypage_Controller {
 				mesgpdto = new MessagePageDTO(searchMsgCurrentPage, totalRecord);
 
 				HashMap<String, Object> map2 = new HashMap<String, Object>();
-				map2.put("id", id);
+				map2.put("id", mem.getId());
 				map2.put("searchworld", searchworld);
 				map2.put("pv", mesgpdto);
 
-				mav.addObject("memid", id);
+				//mav.addObject("memid", mem.getId());
 				mav.addObject("searchop", searchop);
 				mav.addObject("searchworld", searchworld);
 				mav.addObject("spv", mesgpdto);
@@ -537,7 +497,7 @@ public class Mypage_Controller {
 			} else {
 				searchMsgCurrentPage = 1;
 				mesgpdto = new MessagePageDTO(searchMsgCurrentPage, totalRecord);
-				mav.addObject("memid", id);
+				//mav.addObject("memid", mem.getId());
 				mav.addObject("spv", mesgpdto);
 			}
 
@@ -550,10 +510,10 @@ public class Mypage_Controller {
 
 	// 보낸 쪽지함
 	@RequestMapping(value = "/sendmessage.do", method = RequestMethod.GET)
-	public ModelAndView sendmsgMethod(String id, MessagePageDTO pv) {
+	public ModelAndView sendmsgMethod(HttpSession session, MessagePageDTO pv) {
 		ModelAndView mav = new ModelAndView();
-
-		int totalRecord = mservice.sendMsgCountProcess(id);
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
+		int totalRecord = mservice.sendMsgCountProcess(mem.getId());
 
 		if (totalRecord >= 1) {
 			if (pv.getCurrentPage() == 0)
@@ -564,16 +524,16 @@ public class Mypage_Controller {
 			mesgpdto = new MessagePageDTO(sendMsgCurrentPage, totalRecord);
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("id", id);
+			map.put("id", mem.getId());
 			map.put("pv", mesgpdto);
 
-			mav.addObject("memid", id);
+			//mav.addObject("memid", mem.getId());
 			mav.addObject("pv", mesgpdto);
 			mav.addObject("sendMsg", mservice.sendMsgListProcess(map));
 		} else {
 			sendMsgCurrentPage = 1;
 			mesgpdto = new MessagePageDTO(sendMsgCurrentPage, totalRecord);
-			mav.addObject("memid", id);
+			//mav.addObject("memid", mem.getId());
 			mav.addObject("pv", mesgpdto);
 		}
 
@@ -589,11 +549,13 @@ public class Mypage_Controller {
 
 	// 보낸 쪽지함 검색
 	@RequestMapping(value = "/sendsearchmsg.do", method = RequestMethod.GET)
-	public ModelAndView sendsearchMsgMethod(String searchop, String searchworld, String id, MessagePageDTO pv) {
+	public ModelAndView sendsearchMsgMethod(String searchop, String searchworld, HttpSession session, MessagePageDTO pv) {
 		ModelAndView mav = new ModelAndView();
+				MemDTO mem = (MemDTO)session.getAttribute("mem");
+				
 		if (searchop.equals("subject")) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("id", id);
+			map.put("id", mem.getId());
 			map.put("searchworld", searchworld);
 			int totalRecord = mservice.sendsearchSubjectCountProcess(map);
 
@@ -606,11 +568,11 @@ public class Mypage_Controller {
 				mesgpdto = new MessagePageDTO(sendMsgCurrentPage, totalRecord);
 
 				HashMap<String, Object> map2 = new HashMap<String, Object>();
-				map2.put("id", id);
+				map2.put("id", mem.getId());
 				map2.put("searchworld", searchworld);
 				map2.put("pv", mesgpdto);
 
-				mav.addObject("memid", id);
+				//mav.addObject("memid",mem.getId());
 				mav.addObject("searchop", searchop);
 				mav.addObject("searchworld", searchworld);
 				mav.addObject("spv", mesgpdto);
@@ -618,7 +580,7 @@ public class Mypage_Controller {
 			} else {
 				sendMsgCurrentPage = 1;
 				mesgpdto = new MessagePageDTO(sendMsgCurrentPage, totalRecord);
-				mav.addObject("memid", id);
+				//mav.addObject("memid", mem.getId());
 				mav.addObject("spv", mesgpdto);
 			}
 		}
@@ -627,7 +589,7 @@ public class Mypage_Controller {
 		if (searchop.equals("contents")) {
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("id", id);
+			map.put("id", mem.getId());
 			map.put("searchworld", searchworld);
 			int totalRecord = mservice.sendsearchContentsCountProcess(map);
 
@@ -640,11 +602,11 @@ public class Mypage_Controller {
 				mesgpdto = new MessagePageDTO(sendMsgCurrentPage, totalRecord);
 
 				HashMap<String, Object> map2 = new HashMap<String, Object>();
-				map2.put("id", id);
+				map2.put("id", mem.getId());
 				map2.put("searchworld", searchworld);
 				map2.put("pv", mesgpdto);
 
-				mav.addObject("memid", id);
+				//mav.addObject("memid", mem.getId());
 				mav.addObject("searchop", searchop);
 				mav.addObject("searchworld", searchworld);
 				mav.addObject("spv", mesgpdto);
@@ -652,7 +614,7 @@ public class Mypage_Controller {
 			} else {
 				sendMsgCurrentPage = 1;
 				mesgpdto = new MessagePageDTO(sendMsgCurrentPage, totalRecord);
-				mav.addObject("memid", id);
+				//mav.addObject("memid", mem.getId());
 				mav.addObject("spv", mesgpdto);
 			}
 
@@ -662,7 +624,7 @@ public class Mypage_Controller {
 		if (searchop.equals("subandcon")) {
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("id", id);
+			map.put("id", mem.getId());
 			map.put("searchworld", searchworld);
 			int totalRecord = mservice.sendsearchDoubleCountProcess(map);
 
@@ -675,11 +637,11 @@ public class Mypage_Controller {
 				mesgpdto = new MessagePageDTO(sendMsgCurrentPage, totalRecord);
 
 				HashMap<String, Object> map2 = new HashMap<String, Object>();
-				map2.put("id", id);
+				map2.put("id", mem.getId());
 				map2.put("searchworld", searchworld);
 				map2.put("pv", mesgpdto);
 
-				mav.addObject("memid", id);
+				//mav.addObject("memid", mem.getId());
 				mav.addObject("searchop", searchop);
 				mav.addObject("searchworld", searchworld);
 				mav.addObject("spv", mesgpdto);
@@ -687,7 +649,7 @@ public class Mypage_Controller {
 			} else {
 				sendMsgCurrentPage = 1;
 				mesgpdto = new MessagePageDTO(sendMsgCurrentPage, totalRecord);
-				mav.addObject("memid", id);
+				//mav.addObject("memid",mem.getId());
 				mav.addObject("spv", mesgpdto);
 			}
 
@@ -697,7 +659,7 @@ public class Mypage_Controller {
 		if (searchop.equals("searchid")) {
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("id", id);
+			map.put("id", mem.getId());
 			map.put("searchworld", searchworld);
 			int totalRecord = mservice.sendsearchIdCountProcess(map);
 
@@ -710,11 +672,11 @@ public class Mypage_Controller {
 				mesgpdto = new MessagePageDTO(sendMsgCurrentPage, totalRecord);
 
 				HashMap<String, Object> map2 = new HashMap<String, Object>();
-				map2.put("id", id);
+				map2.put("id", mem.getId());
 				map2.put("searchworld", searchworld);
 				map2.put("pv", mesgpdto);
 
-				mav.addObject("memid", id);
+				//mav.addObject("memid", mem.getId());
 				mav.addObject("searchop", searchop);
 				mav.addObject("searchworld", searchworld);
 				mav.addObject("spv", mesgpdto);
@@ -722,7 +684,7 @@ public class Mypage_Controller {
 			} else {
 				sendMsgCurrentPage = 1;
 				mesgpdto = new MessagePageDTO(sendMsgCurrentPage, totalRecord);
-				mav.addObject("memid", id);
+				//mav.addObject("memid",mem.getId());
 				mav.addObject("spv", mesgpdto);
 			}
 
@@ -735,10 +697,10 @@ public class Mypage_Controller {
 
 	// 쪽지 작성페이지 들어가기
 	@RequestMapping(value = "/writemessage.do", method = RequestMethod.GET)
-	public ModelAndView writemsgMethod(String id) {
+	public ModelAndView writemsgMethod(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-
-		mav.addObject("memid", id);
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
+		//mav.addObject("memid", mem.getId());
 		mav.setViewName("writemessage");
 		return mav;
 
@@ -746,21 +708,22 @@ public class Mypage_Controller {
 
 	// 쪽지 발송 완료
 	@RequestMapping(value = "/writemessage.do", method = RequestMethod.POST)
-	public ModelAndView sendwritemsgMethod(TalkDTO tdto) {
+	public ModelAndView sendwritemsgMethod(TalkDTO tdto,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
 		mservice.insWrtieMsgProcess(tdto);
-
-		mav.addObject("id", tdto.getId());
+		/*MemDTO mem = (MemDTO)session.getAttribute("mem");
+		mav.addObject("id", mem.getId());*/
 		mav.setViewName("redirect:/gotomessage.do");
 		return mav;
 	};
 
 	// 받은 쪽지함 뷰 보기
 	@RequestMapping(value = "/viewmsg.do", method = RequestMethod.GET)
-	public ModelAndView viewmsgMethod(TalkDTO tdto) {
+	public ModelAndView viewmsgMethod(TalkDTO tdto,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("memid", tdto.getId());
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
+		//mav.addObject("memid", mem.getId());
 		mav.addObject("tdto", mservice.viewMsgProcess(tdto.getT_num()));
 		mav.setViewName("viewmessage");
 		return mav;
@@ -771,16 +734,17 @@ public class Mypage_Controller {
 	public ModelAndView delviewmsgMethod(TalkDTO tdto) {
 		ModelAndView mav = new ModelAndView();
 		mservice.delViewMsgProcess(tdto.getT_num());
-		mav.addObject("id", tdto.getId());
+		/*mav.addObject("id", tdto.getId());*/
 		mav.setViewName("redirect:/gotomessage.do");
 		return mav;
 	};
 
 	// 받은 쪽지함 뷰 답장 쓰기
 	@RequestMapping(value = "/reviewmsg.do", method = RequestMethod.GET)
-	public ModelAndView reviewmsgMethod(TalkDTO tdto) {
+	public ModelAndView reviewmsgMethod(TalkDTO tdto,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("memid", tdto.getId());
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
+		//mav.addObject("memid", mem.getId());
 		mav.addObject("t_resp", tdto.getT_resp());
 		mav.setViewName("writemessage");
 		return mav;
@@ -788,9 +752,10 @@ public class Mypage_Controller {
 
 	// 보낸 쪽지함 뷰 보기
 	@RequestMapping(value = "/sendviewmsg.do", method = RequestMethod.GET)
-	public ModelAndView sendviewmsgMethod(TalkDTO tdto) {
+	public ModelAndView sendviewmsgMethod(TalkDTO tdto,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("memid", tdto.getId());
+		MemDTO mem = (MemDTO)session.getAttribute("mem");
+		//mav.addObject("memid", mem.getId());
 		mav.addObject("sendview", "sendview");
 		mav.addObject("tdto", mservice.viewMsgProcess(tdto.getT_num()));
 		mav.setViewName("viewmessage");
@@ -801,7 +766,7 @@ public class Mypage_Controller {
 	@RequestMapping(value = "/sendviewmsg.do", method = RequestMethod.POST)
 	public ModelAndView senddelviewmsgMethod(TalkDTO tdto) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("id", tdto.getId());
+		/*mav.addObject("id", tdto.getId());*/
 		mav.setViewName("redirect:/sendmessage.do");
 		return mav;
 	};

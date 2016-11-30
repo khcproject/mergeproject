@@ -10,10 +10,10 @@
 <!-- <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> -->
 <!-- <link rel="stylesheet" href="css/reset.css" /> -->
 <link rel="stylesheet" href="css/mypage.css?ver=2" />
-<script type="text/javascript" src="js/mine.js?ver=2"></script>
+<script type="text/javascript" src="js/mine.js?ver=3"></script>
 <link href="css/bootstrap.min.css" rel="stylesheet" />
 <script type="text/javascript">
-	var mdto_id = "${mdto[0].id}";
+	/* var mdto_id = "${mdto[0].id}"; */
 	var currentPage = "${pv.currentPage}";
 </script>
 </head>
@@ -25,7 +25,15 @@
 	<div class="sidemenu">
 			<!-- 공통 -->
 			<div class="face_and_name">
-				<img id="face_pic" src="\projectpub\temp//${mdto[0].face}" />
+			<c:choose>
+			<c:when test="${mdto[0].face!=null}">
+			<img id="face_pic" src="\projectpub\temp//${mdto[0].face}" />
+			</c:when>
+			<c:otherwise>
+			<img id="face_pic" src="images\nopicture.jpg"/>
+			</c:otherwise>
+			</c:choose>
+				
 				<div id="member_name">
 					<c:out value="${mdto[0].name}님" />
 				</div>
@@ -52,11 +60,6 @@
 					</c:choose>
 					<div id="leave" class="common_btn">회원탈퇴</div>
 				</c:when>
-				<c:otherwise>
-					<!-- 관리자 -->
-					<div id="ok_sell" class="common_btn special_btn">판매자 신청현황</div>
-					<div id="ok_pub" class="common_btn special_btn">펍등록 신청현황</div>
-				</c:otherwise>
 			</c:choose>
 		</div>
 		<!-- End SideMenu -->

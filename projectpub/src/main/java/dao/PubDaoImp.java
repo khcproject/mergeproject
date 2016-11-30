@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import dto.MemDTO;
 import dto.PubDTO;
 import dto.PubPageDTO;
+import dto.StarsDTO;
 
 public class PubDaoImp implements PubDao {
 	private SqlSessionTemplate sqlSession;
@@ -132,6 +133,11 @@ public class PubDaoImp implements PubDao {
 	@Override
 	public List<MemDTO> pubpre(String id) {
 		return sqlSession.selectList("aaa.mempubinfo",id);
+	}
+
+	@Override
+	public List<StarsDTO> lid() {
+		return sqlSession.selectList("aaa.lid");
 	}
 	
 }//end class

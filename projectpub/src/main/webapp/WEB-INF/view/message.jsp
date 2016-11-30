@@ -12,9 +12,9 @@
 <link rel="stylesheet" href="css/message.css?ver=2" />
 <script type="text/javascript" src="js/message.js?ver=2"></script>
 <link href="css/bootstrap.min.css" rel="stylesheet" />
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	var memid = "${memid}";
-</script>
+</script> -->
 </head>
 <body>
 	<!-- <div class="header footer"></div> -->
@@ -35,7 +35,7 @@
 		<div class="mainmenu">
 
 			<div class="head_ment">
-				<span>${memid}님의 받은 쪽지함입니다.(읽지 않은 쪽지:?통)</span>
+				<span>${sessionScope.mem.id}님의 받은 쪽지함입니다.(읽지 않은 쪽지:?통)</span>
 			</div>
 
 			<div class="head_button">
@@ -66,7 +66,7 @@
 											type="checkbox" class="chk" value="${rm.t_num}"/></td>
 											<c:url var="viewPage" value="viewmsg.do">
 											<c:param name="t_num" value="${rm.t_num}"/>
-											<c:param name="id" value="${memid}"/>
+										<%-- 	<c:param name="id" value="${memid}"/> --%>
 											</c:url>
 										<td width="270px" class="text-center"><a href="${viewPage}">${rm.t_title}</a></td>
 										<td width="110px" class="text-center">${rm.id}</td>

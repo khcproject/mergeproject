@@ -39,6 +39,8 @@
 
 		}
 	}
+	
+	
 
 </script>
 
@@ -92,12 +94,12 @@
 					</form>
 				</div>
 				<div class="pass-cont cont">
-					<form action="#" method="post" enctype="multipart/form-data">
-						<input type="email" name="email" id="email" class="inpt1"
-							placeholder="아이디"> <input type="password" name="password"
-							id="password" class="inpt1" placeholder="이름">
+					<form method="post" enctype="multipart/form-data">
+						<input type="text" name="id" id="pwfind_Id" class="inpt1"
+							placeholder="아이디"> <input type="email" name="email"
+							id="pwfind_email" class="inpt1" placeholder="이메일">
 						<div class="submit-wrap">
-							<input type="button" class="submit" value="인증하기" />
+							<input type="button" class="submit" id="pwfind_btn" value="인증하기" />
 						</div>
 					</form>
 				</div>

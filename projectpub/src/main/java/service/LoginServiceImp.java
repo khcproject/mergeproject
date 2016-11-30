@@ -16,7 +16,6 @@ public class LoginServiceImp implements LoginService {
 
 	@Override
 	public void memberInsertProcess(MemDTO dto) {
-
 		dao.meminsertMethod(dto);
 	}
 
@@ -27,7 +26,23 @@ public class LoginServiceImp implements LoginService {
 
 	@Override
 	public MemDTO loginProcess(MemDTO dto) {
+
 		return dao.loginMethod(dto);
 	}
 
-}// end class
+	@Override
+	public void emailagreeUpdateProcess(String id) {
+		dao.emailagreeUpdateMethod(id);
+	}
+
+	@Override
+	public MemDTO pwFindProcess(MemDTO dto) {
+		return dao.pwFindMethod(dto);
+	}
+
+	@Override
+	public void logTimeProcess(MemDTO dto) {
+		dao.logTimeMethod(dto);
+	}
+
+}

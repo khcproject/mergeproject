@@ -30,4 +30,19 @@ public class LoginlDaoImp implements LoginDao {
 		return sqlSession.selectOne("login.log", dto);
 	}
 
+	@Override
+	public void emailagreeUpdateMethod(String id) {
+		sqlSession.update("login.emailchk", id);
+	}
+
+	@Override
+	public MemDTO pwFindMethod(MemDTO dto) {
+		return sqlSession.selectOne("login.pwfind", dto);
+	}
+
+	@Override
+	public void logTimeMethod(MemDTO dto) {
+		sqlSession.update("login.log_time", dto);
+	}
+
 }
