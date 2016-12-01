@@ -44,12 +44,14 @@
 		r.pr_content, s.star_avg
 		from pub p, pr_reply r, (select p_num, (select
 		round(avg(s_stars),1)
-		as star_avg from stars) as star_avg from STARS where p_num
+		as star_avg from stars) as star_avg from STARS
+		where p_num
 		= #{p_num}
 		group by p_num) s
 		where
-		p.p_num = r.p_num(+) and p.p_num =
-		s.p_num(+)	
+		p.p_num = r.p_num(+) and
+		p.p_num =
+		s.p_num(+)
 		and
 		p.p_num=#{p_num}
 	</select>
@@ -57,9 +59,10 @@
 	<!-- 예약등록 -->
 	<insert id="resinsert" parameterType="dto.ReservationDTO">
 		insert into reservation
-		values(SEQ_reservation_res_num.nextval, #{p_num}, 'cus',
+		values(SEQ_reservation_res_num.nextval, #{p_num}, #{id},
 		#{res_people},
-		#{res_date}, 'Y','N' , #{res_time}, #{c_num,jdbcType=VARCHAR})
+		#{res_date}, 'Y','N' , #{res_time},
+		#{c_num,jdbcType=VARCHAR})
 
 	</insert>
 
@@ -67,7 +70,7 @@
 	<insert id="replyinsert" parameterType="dto.Pr_replyDTO">
 		insert into
 		pr_reply
-		values(SEQ_pr_reply_pr_num.nextval, 'customer',
+		values(SEQ_pr_reply_pr_num.nextval, 'cus',
 		#{p_num},
 		0,
 		#{pr_content})
@@ -100,7 +103,7 @@
 	<!-- 별점등록 -->
 	<insert id="pubStarIns" parameterType="dto.StarsDTO">
 		insert into stars
-		values(#{p_num}, 'cus', #{s_stars})
+		values(#{p_num}, #{id}, #{s_stars})
 
 	</insert>
 
@@ -108,6 +111,11 @@
 	<select id="pubStarsSel" parameterType="int" resultType="dto.StarsDTO">
 		select
 		round(avg(s_stars),1) as s_stars from stars where p_num = #{p_num}
+	</select>
+	<!-- 해당ID별점 찾기 -->
+	<select id="starchk" parameterType="dto.StarsDTO" resultType="dto.StarsDTO">
+		select * from stars where
+		id=#{id} and p_num=#{p_num}
 	</select>
 
 	<!-- 쿠폰 불러오기 -->

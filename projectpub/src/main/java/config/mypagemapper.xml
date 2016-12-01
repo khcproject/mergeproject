@@ -194,23 +194,25 @@ update reservation set res_sellcheck='C' where res_num=#{res_num}
 </update>
 <!-- END 판매자 예약리스트 거부 -->
 
-<!-- 어드민 : 판매자 신청 수락 --> 
+<!-- 비활성
+어드민 : 판매자 신청 수락 
 <update id="ablesell" parameterType="dto.MemDTO">
 update members set userchk='S', allow_chk='Y' where id=#{id}
 </update>
 <insert id="ableselltalk" parameterType="dto.MemDTO">
 insert into talk values(SEQ_talk_t_num.nextval,'admin',#{id},'판매자로 등급 조정되었습니다. PUB 등록 신청이 가능합니다.',to_char(sysdate,'MM"월"DD"일" HH:MI'),'N','wow')
 </insert>
-<!-- END 어드민 : 판매자 신청 수락 -->
+END 어드민 : 판매자 신청 수락
 
-<!-- 어드민 : 판매자 신청 거부 -->
+어드민 : 판매자 신청 거부
 <update id="disablesell" parameterType="dto.MemDTO">
 update members set allow_chk='N' where id=#{id}
 </update>
 <insert id="disableselltalk" parameterType="dto.MemDTO">
 insert into talk values(SEQ_talk_t_num.nextval,'admin','sell','판매자 등급 신청이 취소되었습니다.',to_char(sysdate,'MM"월"DD"일" HH:MI'),'N','ohno')
 </insert>
-<!-- END 어드민 : 판매자 신청 거부 -->
+END 어드민 : 판매자 신청 거부
+비활성 -->
 
 <!--회원정보 수정 INTRO-->
 <select id="memuptint" parameterType="dto.MemDTO" resultType="dto.MemDTO">

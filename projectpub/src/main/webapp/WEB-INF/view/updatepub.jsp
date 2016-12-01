@@ -47,6 +47,12 @@
 </script>
 </head>
 <body>
+<c:if test="${sessionScope.userchk=='C'}">
+<script>
+ alert('판매자가 아닙니다.');
+ location.href="mypage.do";
+ </script>
+</c:if>
 	<!-- <div class="header footer"></div> -->
 
 	<!-- 	<div class="full">  -->

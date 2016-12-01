@@ -12,14 +12,15 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="css/reset.css" media="all" />
-<link rel="stylesheet" type="text/css" href="css/cho2.css?ver=1"
+<link rel="stylesheet" type="text/css" href="css/cho2.css"
 	media="all" />
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="js/login.js" type="text/javascript"></script>
+<script src="js/login.js?ver=1" type="text/javascript"></script>
 
 <script type="text/javascript">
+	var returnUrl = "${param.returnUrl}";
 	var chk1 = "";
 
 	function idchkView(res) {
@@ -31,24 +32,27 @@
 			});
 			//{"readonly":"", ....}		
 			chk1 = '확인';
-			console.log(chk);
 
 		} else {
-			alert('중복된 아이디입니다.');
+			$('#idchk').focus();
 			$('#idchk').val('');
-
+			alert('중복된 아이디입니다.');
 		}
 	}
-	
-	
-
 </script>
 
 </head>
 <body>
+<c:if test="${!empty param.returnUrl}">
+<script>
+ alert('로그인후 페이지 이동');
+ </script>
+</c:if>
+
+
 	<div id="all">
 		<div class="half" id="halfcon">
-			<h1>PUB</h1>
+			<h1>The Pub</h1>
 			<div class="tabs">
 				<span class="tab signin active"><a href="#signin">로그인</a></span> <span
 					class="tab signup"><a href="#signup">회원가입</a></span>
@@ -78,7 +82,7 @@
 							name="pw" class="inpt2 pass2" placeholder="비밀번호 확인"> <span
 							class="chkspan" id="pass2"></span> <input type="email"
 							name="email" class="inpt2 email" placeholder="이메일"><span
-							id="email" class="chkspan">※이메일 인증 후 로그인 할 수 있습니다.</span> <input
+							id="email" class="chkspan">※이메일인증을 해야 로그인이 가능합니다.</span> <input
 							type="text" name="name" class="inpt2 name" placeholder="이름">
 						<input type="date" name="birth" class="inpt2 birth"
 							placeholder="이름"> <select id="inpt23" name="sex">
@@ -106,7 +110,7 @@
 			</div>
 		</div>
 		<div class="half" id="imghalf">
-			<img alt="사진1" src="images/11.jpg" style="width: 100%; height: 100%">
+			<img alt="사진1" src="images/11.jpg" style="width: 550px; height: 100%">
 		</div>
 	</div>
 

@@ -46,8 +46,14 @@
 	
 	
 </script>
-</head>
-<body>
+</head>	
+<body>	
+<c:if test="${sessionScope.userchk=='C'|| sessionScope.userchk=='S'}">
+<script>
+ alert('권한이 없습니다.');
+ location.href="mypage.do";
+ </script>
+</c:if>
 	<!-- <div class="header footer"></div> -->
 
 	<!-- 	<div class="full">  -->

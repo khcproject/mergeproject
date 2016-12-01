@@ -1,44 +1,57 @@
 $(document)
 		.ready(
 				function() {
+					
+					// 비로그인시 별점띄워주는
+					notlogstar_view(staravg);
 					// 리플 삭제
 					$(document).on('click', '.reply_del', reply_DeleteLlist);
-
+					
 					$('.btnRes').bind('click', function() {
-						alert('asdfasf');
-	
-						var IMP = window.IMP; // 생략가능
-						IMP.init('imp68404030'); // 'iamport' 대신 부여받은 "가맹점
-													// 식별코드"를
-						// 사용
-						IMP.request_pay({
-						    pg : 'html5_inicis',
-						    pay_method : 'phone',
-						    merchant_uid : 'merchant_' + new Date().getTime(),
-						    name : '주문명:결제테스트',
-						    amount : 100,
-						    buyer_email : 'iamport@siot.do',
-						    buyer_name : '구매자이름',
-						    buyer_tel : '010-1234-5678',
-						    buyer_addr : '서울특별시 강남구 삼성동',
-						    buyer_postcode : '123-456'
-						}, function(rsp) {
-						    if ( rsp.success ) {
-						        var msg = '결제가 완료되었습니다.';
-						        msg += '고유ID : ' + rsp.imp_uid;
-						        msg += '상점 거래ID : ' + rsp.merchant_uid;
-						        msg += '결제 금액 : ' + rsp.paid_amount;
-						        msg += '카드 승인번호 : ' + rsp.apply_num;
-						        $('#frm').attr('action', "pubview.do").submit();
-						    } else {
-						        var msg = '결제에 실패하였습니다.';
-						        msg += '에러내용 : ' + rsp.error_msg;
-						    }
-
-						    alert(msg);
-						});
-						// 결재
-						
+						if(logchk==1){
+							if($('#reser_date').val().length!=0){
+								if($('#reser_time').val()!='n'){
+									var IMP = window.IMP; // 생략가능
+									IMP.init('imp68404030'); // 'iamport' 대신
+																// 부여받은
+																// "가맹점식별코드"를사용
+									IMP.request_pay({
+										pg : 'html5_inicis',
+										pay_method : 'phone',
+										merchant_uid : 'merchant_' + new Date().getTime(),
+										name : '주문명:결제테스트',
+										amount : $('#res_people').val()*1000,
+										buyer_email : 'iamport@siot.do',
+										buyer_name : '구매자이름',
+										buyer_tel : '010-1234-5678',
+										buyer_addr : '서울특별시 강남구 삼성동',
+										buyer_postcode : '123-456'
+									}, function(rsp) {
+										if ( rsp.success ) {
+											var msg = '결제가 완료되었습니다.';
+											msg += '마이페이지에서 확인이 가능합니다.';
+											$('#frm').attr('action', "pubview.do").submit();
+										} else {
+											var msg = '결제에 실패하였습니다.';
+											msg += '에러내용 : ' + rsp.error_msg;
+										}
+										
+										alert(msg);
+									});
+									// 결재
+								}else{
+									alert('시간를 선택해주세요.')
+									$('#	reser_time').focus();
+								}
+							}else{
+								alert('날짜를 선택해주세요.')
+								$('#reser_date').focus();
+							}
+							
+						}else{
+							 location.href="login.do?returnUrl=pubview.do?p_num="+param_p_num;
+							 	}
+													
 					});
 					
 					// 댓글 달기
@@ -70,9 +83,7 @@ $(document)
 										} else if ($(this).text() == "확인") {
 											// alert($(this).val());
 											reply_UpdateLlist($(this).val());
-
 										}
-
 									})
 								// 스타 인설트
 					$('.star_input').mouseenter(function(){
@@ -109,19 +120,18 @@ window.onload = function() {
 
 // 별점 인설트
 function pubStar_InsertLlist() {
-	alert(typeof(Number($('.score').text())));
+	alert(idx);
 	$.ajax({
 				type : 'POST',
 				dataType : 'json',
 				url : 'pubStarInsertList.do',
 				data : 'p_num=' + param_p_num + '&s_stars='
-						+ (idx/2),// Number($('.score').text()),
+						+ (idx/2)+'&id='+session_id,// Number($('.score').text()),
 				success : starViewMessage,
 				error : function(error) {
 					alert(error);
 				}
-			});
-
+			});		
 }
 
 function reply_InsertLlist() {
@@ -207,9 +217,8 @@ function process() {
 // 별점 띄우기
 function star_view(s){
 	   // 추후 해당 축제 별점 수를 가져와서 나눠주는 걸로 바꿀 것
-	   star2=s/2;// 별 평점
 	   var star=s;
-	   var star_half=(s*0.5-star).toFixed(2);
+	   var star_half=number((s-star).toFixed(2));
 	   if(star!=0){
 	   for(var i=1;i<=star;i++){
 	      $('.starview').append('<img src="images/star1.png" width="30px" height="30px">');
@@ -225,4 +234,23 @@ function star_view(s){
 	}
 	
 
+function notlogstar_view(s){
+
+	  // 추후 해당 축제 별점 수를 가져와서 나눠주는 걸로 바꿀 것
+	   var star=Math.floor(s);
+	   var star_half=(s-star).toFixed(2);
+	   if(star!=0){
+	   for(var i=1;i<=star;i++){
+	      $('#starview').append('<img src="images/star1.png" width="30px" height="30px">');
+	   }
+	   if(star_half>=0.5){
+	      $('#starview').append('<img src="images/star0.5.png" width="30px" height="30px">');
+	   }
+	   }else{
+	      for(var i=1;i<=5;i++){
+	         $('#starview').append('<img src="images/star0.png" width="30px" height="30px">');
+	      }
+	   }
+	}
+	
 // 별점 띄우기 끝

@@ -32,6 +32,8 @@ public interface ReservationDao {
 	public void pubStarInsertMethod(StarsDTO dto);
 
 	public StarsDTO pubStarAvgMethod(int p_num);
-	
+
 	public List<CouponDTO> couponListMethod();
+
+	public StarsDTO chkstarMethod(StarsDTO ss);
 }

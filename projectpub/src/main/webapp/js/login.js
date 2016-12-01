@@ -52,23 +52,35 @@ $(document)
 
 														if (!/^[a-zA-Z0-9!@#$%^&*()?_~]{6,15}$/
 																.test(newPassword1)) {
-															alert('비밀번호를 확인하세요.')
+															$('.pass1').focus();
+															$('.pass1').val('');
+															$('.pass2').val('');
+															alert('비밀번호를 다시 입력하세요.')
 															return false;
 														} else if (newPassword1
 																.search($(
 																		'#idchk')
 																		.val()) > -1) {
-															alert('비밀번호를 확인하세요.')
+															$('.pass1').focus();
+															$('.pass1').val('');
+															$('.pass2').val('');
+															alert('비밀번호를 다시 입력하세요.')
 															return false;
 
 														} else if (chk3 < 2) {
-															alert('비밀번호를 확인하세요.')
+															$('.pass1').focus();
+															$('.pass1').val('');
+															$('.pass2').val('');
+															alert('비밀번호를 다시 입력하세요.')
 															return false;
 
 														} else if (/(\w)\1\1\1/
 																.test(newPassword1)
 																|| isContinuedValue(newPassword1)) {
-															alert('비밀번호를 확인하세요.');
+															$('.pass1').focus();
+															$('.pass1').val('');
+															$('.pass2').val('');
+															alert('비밀번호를 다시 입력하세요.');
 															return false;
 
 														} else {
@@ -83,7 +95,7 @@ $(document)
 
 																		if (!($(
 																				'#inpt23')
-																				.val() == 'N')) {
+																				.val() == 'n')) {
 																			if ($(
 																					'.phone')
 																					.val().length != 0) {
@@ -95,41 +107,61 @@ $(document)
 																						.submit();
 																			} else {
 																				alert('핸드폰번호를 입력하세요.!!')
+																				$(
+																						'.phone')
+																						.focus();
 																				return false;
 																			}
 																		} else {
 																			alert('성별을 선택하세요.!!')
+																			$(
+																					'#inpt23')
+																					.focus();
 																			return false;
 																		}
 
 																	} else {
 																		alert('생년월일을 선택하세요.');
+																		$(
+																				'.birth')
+																				.focus();
 																		return false;
 																	}
 																} else {
 																	alert('이름을 입력하세요.!!')
+																	$('.name')
+																			.focus();
 																	return false;
 																}
 															} else {
 																alert('이메일을 입력하세요.!!')
+																$('.email')
+																		.focus();
+
 																return false;
 															}
 														}
 													} else {
 														alert('비밀번호가 일치하지 않습니다.!!')
+														$('.pass2').focus();
+
 														return false;
+
 													}
 												} else {
-													alert('비밀번호확인을 입력하세요.!!')
+													alert('비밀번호 확인을 입력하세요.!!')
+													$('.pass2').focus();
 													return false;
 												}
 
 											} else {
 												alert('비밀번호를 입력하세요.!!')
+												$('.pass1').focus();
 												return false;
 											}
 										} else {
 											alert('아이디 중복확인을 해주세요.!!')
+											$('.idchk').focus();
 											return false;
 										}
 									});
@@ -207,6 +239,7 @@ $(document)
 										}
 
 									});
+
 					// 로그인버튼
 					$("#logbtn").bind('click', function() {
 						// alert($('#logid').val());
@@ -275,7 +308,7 @@ function loginMethod() {
 		type : 'POST',
 		dataType : 'json',
 		url : 'login.do',
-		data : 'id=' + $('#logid').val() + '&pw=' + $('#logpw').val(),
+		data : 'id=' + $('#logid').val() + '&pw=' + $('#logpw').val()+'&returnUrl='+returnUrl,
 		success : function(data) {
 			if (data.chk == null) {
 				window.location.href = data.href;
@@ -301,7 +334,7 @@ function pwFindMethod() {
 		data : 'id=' + $('#pwfind_Id').val() + '&email='
 				+ $('#pwfind_email').val(),
 		success : function(data) {
-		alert('왔섭?');
+			alert('왔섭?');
 			if (data.no == null) {
 				alert(data.ok)
 				window.location.href = data.href;

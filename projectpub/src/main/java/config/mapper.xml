@@ -145,19 +145,8 @@ where rownum<=9
 	<!-- 펍 수정 정보 -->
 <resultMap type="dto.MemDTO" id="mempub" autoMapping="false">
 <result column="id" property="id"/>
-<result column="pw" property="pw"/>
-<result column="phone" property="phone"/>
-<result column="email" property="email"/>
-<result column="email_agree" property="email_agree"/>
-<result column="sex" property="sex"/>
 <result column="name" property="name"/>
-<result column="birth" property="birth"/>
-<result column="userchk" property="userchk"/>
-<result column="face" property="face"/>
-<result column="allow_chk" property="allow_chk"/>
-<result column="login_time" property="login_time"/>
 <result column="saupja_num" property="saupja_num"/>
-<result column="dates" property="dates"/>
 <collection property="pub" javaType="java.util.List" ofType="dto.PubDTO" autoMapping="false">
 <result column="p_num" property="p_num"/>
 <result column="ppid" property="id"/>
@@ -167,7 +156,6 @@ where rownum<=9
 <result column="p_contents" property="p_contents"/>
 <result column="p_address" property="p_address"/>
 <result column="p_maxpeople" property="p_maxpeople"/>
-<result column="p_pub_chk" property="p_pub_chk"/>
 <result column="p_addr_post" property="p_addr_post"/>
 </collection>
 </resultMap>
@@ -204,12 +192,16 @@ select round(avg(s_stars),1) as s_stars from stars where p_num= #{p_num}
 	<!-- 랭킹별 사진 가져오기 -->
 	<select id="get" resultMap="mem_star">
 		select p.*, a.*
-from(select p_num,round(avg(s_stars),1) as s_stars from stars group by p_num order by s_stars desc) a, pub p
+from(select p_num,round(avg(s_stars),1) as s_stars from stars group by p_num) a, pub p
 where p.p_num = a.p_num(+) and p.p_pub_chk ='Y'
+order by s_stars desc
 	</select>
 	
 	<!-- 야매 -->
 	<select id="lid" resultType="dto.StarsDTO">
-	    select p_num,round(avg(s_stars),1) as s_stars from stars group by p_num
+	    select p.*, a.*
+from(select p_num,round(avg(s_stars),1) as s_stars from stars group by p_num) a, pub p
+where p.p_num = a.p_num(+) and p.p_pub_chk ='Y'
+
 	</select>
 </mapper>

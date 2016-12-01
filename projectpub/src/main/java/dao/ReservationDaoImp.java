@@ -68,8 +68,9 @@ public class ReservationDaoImp implements ReservationDao {
 		sqlSession.update("reser.replyUpdate", dto);
 	}
 
-	@Override
+	@Override//별점 등록
 	public void pubStarInsertMethod(StarsDTO dto) {
+		System.out.println(dto.getS_stars());
 		sqlSession.insert("reser.pubStarIns", dto);
 	}
 
@@ -78,9 +79,14 @@ public class ReservationDaoImp implements ReservationDao {
 		return sqlSession.selectOne("reser.pubStarsSel", p_num);
 	}
 
-	@Override// 나중에 ID값을 넘겨줘야됨
+	@Override // 나중에 ID값을 넘겨줘야됨
 	public List<CouponDTO> couponListMethod() {
 		return sqlSession.selectList("reser.couponList");
+	}
+
+	@Override
+	public StarsDTO chkstarMethod(StarsDTO ss) {
+		return sqlSession.selectOne("reser.starchk", ss);
 	}
 
 }

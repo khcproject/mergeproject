@@ -12,18 +12,18 @@
  <link rel = "stylesheet" type = "text/css" href = "css/reset.css">
  <script  src="js/jquery.bxslider.min.js"></script>
 <script src="js/bx.js"></script>
-<script src="js/aja.js"></script>
+<script src="js/aja.js?ver=2"></script>
 <script type="text/javascript">
 /* $(document).ready(function(){
 	$('#select').change(function(){
 		alert($('#select option:selected').val());
 	});
 }); */
+
 </script>
 </head>	
 <body>
 <div id="main">
-
 	<div id="content">
 		<!-- 랭킹별 사진  -->
 		<c:choose>
@@ -34,7 +34,7 @@
 			<div id="rankrest">
 			<ul id="slide_banner">
 			<c:forEach var="i" begin="1" end="${fn:length(aList)-1}">
-				<li><a href="#"><img src="\projectpub\temp//${aList[i].p_mupload}" style="width:198px; height:198px; " alt="사진${i}" /></a></li>
+				<li><a href="pubview.do?p_num=${aList[i].p_num}"><img src="\projectpub\temp//${aList[i].p_mupload}" style="width:198px; height:198px; " alt="사진${i}" /></a></li>
 			</c:forEach>
 			</ul>
 		</div>
@@ -70,20 +70,24 @@
 		<div id="rec">
 			<div id="rec-con">
 			<table id="table">
-			<c:forEach var="pub" items="${aList2}">
-				<div id="test">
-					<a href="pubview.do?p_num=${pub.p_num}"><img src="\projectpub\temp//${pub.p_mupload}" style="width:212px; height:274px; " alt="사진1" /></a>
-					<a>Pub집 이름 : ${pub.p_title}</a>
-					<a>Pub집 주소 : ${pub.p_address}</a>
-					<a>최대인원 : ${pub.p_maxpeople}</a>
-					<c:forEach var="sss" items="${diao}">
-					<c:if test="${pub.p_num==sss.p_num}">
-					<a>${sss.s_stars}</a>
-					</c:if>
-					</c:forEach>
-				</div>
-
-			</c:forEach>
+				<c:forEach var="pub" items="${aList2}">
+					<div id="test">
+						<a href="pubview.do?p_num=${pub.p_num}"><img src="\projectpub\temp//${pub.p_mupload}" style="width:212px; height:274px;" alt="사진1" /></a>
+						
+						<a style="width:212px; height:40px;">Pub집 이름 : ${pub.p_title}</a>
+						<a style="width:212px; height:40px;">Pub집 주소 : ${pub.p_address}</a>
+						<a style="width:212px; height:40px;">최대인원 : ${pub.p_maxpeople}</a>
+						<c:forEach var="sss" items="${diao}">
+							<c:if test="${pub.p_num==sss.p_num}">
+								<div class="${pub.p_num}" style="width:150px;"></div><a>${sss.s_stars}점</a>
+									<script>
+										alert(${sss.p_num});
+										star(${sss.p_num},${pub.p_num});
+									</script>
+							</c:if>
+						</c:forEach>
+					</div>
+				</c:forEach>
 			</table>	
 			</div>
 		

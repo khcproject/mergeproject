@@ -8,7 +8,8 @@ ADD(t_title varchar2(2000) NOT NULL)
 ALTER TABLE members
 ADD dates varchar2(1000)
 
-select * from event
+
+select * from stars
 delete from talk
 
 delete from members where id='selltest'
@@ -51,10 +52,10 @@ update members set email_agree='Y' where id='adminadmin';
 
 --coupon 등록
 insert into coupon values(SEQ_coupon_c_num.nextval,'selltest','c_contents','c_coupon',to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N');
-insert into coupon values(SEQ_coupon_c_num.nextval,'cus','c_contents2','c_coupon2',to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N');
+insert into coupon values(SEQ_coupon_c_num.nextval,'customer','c_contents2','c_coupon2',to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N');
 insert into coupon values(SEQ_coupon_c_num.nextval,'sell','c_contents','c_coupon',to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N');
 select * from coupon
-update coupon set c_use='Y'
+update coupon set c_use='Y' where c_num=15
 
 
 --pub 등록
@@ -62,19 +63,20 @@ insert into pub values(SEQ_pub_p_num.nextval,'sell','abcd.jpg','efgh.jpg','title
 insert into pub values(SEQ_pub_p_num.nextval,'sell2','mupload','supload','title','contents','address','15','N');
 select * from pub
 delete from pub 
-update pub set p_pub_chk='Y' where id='selltest'
+update pub set p_pub_chk='Y' where id='chopas1ze'
  
 
 --reservation 등록
-insert into reservation values(SEQ_reservation_res_num.nextval,1,'customer','10',to_char(sysdate,'YYYY"년"MM"월"DD"일"'),'Y','N',to_char(sysdate,'HH"시'),1);
+insert into reservation values(SEQ_reservation_res_num.nextval,2,'customer','10',to_char(sysdate,'YYYY"년"MM"월"DD"일"'),'Y','N',to_char(sysdate,'HH"시'),15);
 insert into reservation values(SEQ_reservation_res_num.nextval,2,'customer','8',to_char(sysdate,'YYYY"년"MM"월"DD"일"'),'Y','N',to_char(sysdate,'HH"시'));
 insert into reservation values(SEQ_reservation_res_num.nextval,1,'cus','7',to_char(sysdate,'YYYY"년"MM"월"DD"일"'),'Y','N',to_char(sysdate,'HH"시'));
 --11/14 추가
 insert into reservation values(SEQ_reservation_res_num.nextval,1,'customer','9',to_char(sysdate,'YYYY"년"MM"월"DD"일"'),'Y','N',to_char(sysdate,'HH"시'));
 insert into reservation values(SEQ_reservation_res_num.nextval,2,'cus','7',to_char(sysdate,'YYYY"년"MM"월"DD"일"'),'Y','N',to_char(sysdate,'HH"시'));
 insert into reservation values(SEQ_reservation_res_num.nextval,2,'cus2','16',to_char(sysdate,'YYYY"년"MM"월"DD"일"'),'Y','N',to_char(sysdate,'HH"시'));
-z
 
+select * from reservation
+update reservation set c_num=13 where res_num=6
 update reservation set res_sellcheck='Y' where res_num=3
 delete from reservation 
 
@@ -92,8 +94,10 @@ insert into talk values(SEQ_talk_t_num.nextval,'sell','cus','내용','2016-05-09
 
 --쿠폰 출력(사용자 정보포함)
 select m.*, c.c_num,c.id as ccid, c.c_contents, c.c_coupon, c.c_date,c.c_use, r.p_num as rpnum,p.p_title
-from(select * from members where id='cus')m , coupon c, reservation r, pub p
+from(select * from members where id='customer')m , coupon c, reservation r, pub p
 where m.id=c.id(+) and c.c_num=r.c_num(+) and r.p_num = p.p_num(+)
+
+delete from coupon where id ='customer'
 
 
 --구매자 예약현황

@@ -75,4 +75,9 @@ public class ReservationServiceImp implements ReservationService {
 		return dao.couponListMethod();
 	}
 
+	@Override
+	public StarsDTO starChkProcess(StarsDTO ss) {
+		return dao.chkstarMethod(ss);
+	}
+
 }// end class

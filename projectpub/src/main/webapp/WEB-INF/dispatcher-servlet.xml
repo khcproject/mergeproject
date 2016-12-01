@@ -188,8 +188,20 @@
 <mvc:interceptors>
 	
 	<mvc:interceptor>
+	<!-- 종선 인터셉터 -->
 		<mvc:mapping path="/mypage.do"/>
-		<bean class="interceptor.SampleInterceptor"/>
+		<mvc:mapping path="/memberupt.do"/>
+		<mvc:mapping path="/joinpub.do"/>
+		<mvc:mapping path="/joinseller.do"/>
+		<mvc:mapping path="/leaveready.do"/>
+		<mvc:mapping path="/gotomessage.do"/>
+		<mvc:mapping path="/sellreservlist.do"/>
+		<mvc:mapping path="/sendmessage.do"/>
+		<mvc:mapping path="/updatepub.do"/>
+		<!-- 기범 인터셉터 -->
+		<mvc:mapping path="/manager.do"/>
+		<mvc:mapping path="/pubpre.do"/>
+		<bean class="interceptor.AuthInterceptor"/>
 	</mvc:interceptor>
 	
 </mvc:interceptors>

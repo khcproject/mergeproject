@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import dto.MemDTO;
-import dto.StarsDTO;
 import service.LoginService;
 
 @Controller
@@ -31,16 +30,14 @@ public class LoginController {
 	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
 	public ModelAndView loginviewMethod() {
 		ModelAndView mav = new ModelAndView();
-
-		mav.setViewName("login");
+			mav.setViewName("login");	
 		return mav;
 	}
 
 	// 로그인
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	public @ResponseBody HashMap<String, String> loginMethod(MemDTO dto, HttpSession session) {
+	public @ResponseBody HashMap<String, String> loginMethod(MemDTO dto, HttpSession session,HttpServletRequest req, String returnUrl) {
 		MemDTO mm = service.loginProcess(dto);
-
 		HashMap<String, String> map = new HashMap<String, String>();
 
 		if (mm == null) {
@@ -48,9 +45,24 @@ public class LoginController {
 		} else {
 			if (mm.getEmail_agree().equals("Y")) {
 				session.setMaxInactiveInterval(30 * 60); // 30분
+				session.setAttribute("chk", 1);
 				session.setAttribute("mem", mm);
+				if(mm.getUserchk().equals("C")){
+					session.setAttribute("userchk","C");
+				}else if(mm.getUserchk().equals("S")){
+					session.setAttribute("userchk","S");
+				}else if(mm.getUserchk().equals("A")){
+					session.setAttribute("userchk", "A");
+				}
+				
 				service.logTimeProcess(dto);
-				map.put("href", "mainview.do");
+				
+				if(returnUrl!=""){
+					map.put("href",returnUrl);
+				}else{
+					map.put("href", "mainview.do");	
+				}
+				
 			} else {
 				map.put("chk", "이메일인증을 해주세요.");
 			}

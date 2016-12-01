@@ -48,7 +48,6 @@ public class PubController {
 				you.get(i).setP_mupload(you.get(i).getP_mupload().split("/")[0]);
 			}
 		}
-		System.out.println(you.size());
 		mav.addObject("aList", you);
 
 		// 전체 펍 갯수 가져오기
@@ -63,8 +62,10 @@ public class PubController {
 
 			// 전체 펍 4개씩 잘라서 가져오기
 			List<PubDTO> you2 = service.listProcess(pubpdto);
+			System.out.println(you2.size());
 			//ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ
 			List<StarsDTO> lie = service.lid();
+			System.out.println(lie.size());
 			
 			for (int i = 0; i < you2.size(); i++) {
 				if (you2.get(i).getP_mupload().contains("/")) {
@@ -350,6 +351,7 @@ public class PubController {
 	
 	@RequestMapping("/pubpre.do")
 	public ModelAndView pubpre(String id){
+		System.out.println(id);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("mdto",service.pubpre(id));
 		mav.setViewName("pubpre");

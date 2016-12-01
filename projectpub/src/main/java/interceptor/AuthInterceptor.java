@@ -15,12 +15,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		
 		String uri=request.getRequestURI();
 		uri=uri.substring(uri.lastIndexOf("/")+1); 
-		System.out.println("uri:"+uri);
-		
 		
 		HttpSession session = request.getSession();
-		if(session.getAttribute("chk")==null){
-			response.sendRedirect("index.do?returnUrl="+uri);
+		if(session.getAttribute("mem")==null){
+			response.sendRedirect("login.do?returnUrl="+uri);
 			return false;
 		}else {
 			return super.preHandle(request, response, handler);

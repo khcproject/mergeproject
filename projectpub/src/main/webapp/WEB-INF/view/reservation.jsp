@@ -26,16 +26,16 @@
  -->
 <script type="text/javascript"
 	src="//apis.daum.net/maps/maps3.js?apikey=f9da77cfa3f6b638335a41d5c1941a32&libraries=services"></script>
-<script src="js/reservation.js?var=4" type="text/javascript"></script>
+<script src="js/reservation.js" type="text/javascript"></script>
 
 
 <script type="text/javascript">
 	var param_p_num = "${param.p_num}";
 	var idx = 0;
+	var session_id = "${sessionScope.mem.id}";
+	var staravg = "${rdto[0].star.s_stars}";
+	var logchk = "${sessionScope.chk}"
 
-	//////////
-
-	/////////////
 	function viewMessage(res) {
 		$('#reply_12').empty();
 		$
@@ -65,15 +65,9 @@
 		star_view(star);
 
 	}
+	function star(res) {
 
-	/* 
-	<div class="star_input">
-	<span></span> <span></span> <span></span> <span></span> <span></span>
-	<span></span> <span></span> <span></span> <span></span> <span></span>
-	</div>
-	<span class="score"></span>
-
-	 */
+	}
 </script>
 
 </head>
@@ -104,14 +98,14 @@
 					<table>
 						<tr>
 							<td width="20%" align="center">날짜</td>
-							<td><input type="date" name="res_date" size="10"
-								maxlength="20" /></td>
+							<td><input id="reser_date" type="date" name="res_date"
+								size="10" maxlength="20" /></td>
 						</tr>
 
 						<tr>
 							<td width="20%" align="center">시간</td>
-							<td><select name="res_time">
-									<option value="">선택하세요</option>
+							<td><select id="reser_time" name="res_time">
+									<option value="n">선택하세요</option>
 									<option value="18:00">18:00</option>
 									<option value="19:00">19:00</option>
 									<option value="20:00">20:00</option>
@@ -134,7 +128,7 @@
 						<tr>
 							<td width="20%" align="center">사용할 쿠폰 :</td>
 							<td><select name="c_num">
-									<option value="0">쿠폰 선택</option>
+									<option value="없음">쿠폰 선택</option>
 									<c:forEach items="${coupon }" var="co">
 										<option value="${co.c_num}">${co.c_contents}</option>
 									</c:forEach>
@@ -142,32 +136,48 @@
 						</tr>
 					</table>
 					<input type="hidden" name="p_num" value="${rdto[0].p_num}" /> <input
-						type="button" class="btnRes" value="예약하기" />
+						type="button" class="btnRes" value="예약하기" /> <input type="hidden"
+						name="id" value="${sessionScope.mem.id}" />
+
 				</form>
 
 			</div>
 
 		</div>
 		<div id="content">
-
 			<!-- 별점 시작 -->
-			<div id="star_all">
-				<div class="star_input">
-					<span class="star"></span> <span class="star"></span> <span
-						class="star"></span> <span class="star"></span> <span class="star"></span>
-					<span class="star"></span> <span class="star"></span> <span
-						class="star"></span> <span class="star"></span> <span class="star"></span>
-				</div>
-				<div>
-					<span class="score"></span>
-				</div>
+			<c:choose>
+				<c:when test="${sessionScope.mem!=null}">
+					<c:choose>
+						<c:when test="${ss==null}">
+							<div id="star_all">
+								<div class="star_input">
+									<span class="star"></span> <span class="star"></span> <span
+										class="star"></span> <span class="star"></span> <span
+										class="star"></span> <span class="star"></span> <span
+										class="star"></span> <span class="star"></span> <span
+										class="star"></span> <span class="star"></span>
+								</div>
+								<div>
+									<span class="score"></span>
+								</div>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<!-- 별점 평균 및 띄워주기 -->
+							<div id="starview"></div>
+							<p>${rdto[0].star.s_stars}점</p>
+						</c:otherwise>
+					</c:choose>
+				</c:when>
+				<c:otherwise>
+					<!-- 별점 평균 및 띄워주기 -->
+					<div id="starview"></div>
+					<p>${rdto[0].star.s_stars}점</p>
+				</c:otherwise>
+			</c:choose>
 
 
-				<!--  <div class="starview"></div><p>' + res.s_stars + '점</p>'-->
-				<!-- 별점 평균 및 띄워주기 -->
-				<%-- 	<div class="starview"></div>
-					<p>${rdto[0].star.s_stars}점</p> --%>
-			</div>
 			<!-- 별점 끝-->
 			<br>
 			<p>설명충 : ${rdto[0].p_contents}</p>

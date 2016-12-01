@@ -19,6 +19,13 @@
 </script>
 </head>
 <body>
+<c:if test="${sessionScope.userchk=='C'}">
+<script>
+ alert('판매자가 아닙니다.');
+ location.href="mypage.do";
+ </script>
+</c:if>
+
 	<!-- <div class="header footer"></div> -->
 
 	<!-- 	<div class="full">  -->
@@ -159,7 +166,7 @@
 						<p class="help-block">Pub menu 사진을 올려주세요.</p>
 					</div>
 				</div>
-				<input type="hidden" name="p_pub_chk" value="N" />
+				<input type="hidden" name="p_pub_chk" value="R" />
 				<div class="form-group">
 					<div class="col-sm-12 text-center">
 						<button class="btn btn-primary" type="button" id="jpbtn">

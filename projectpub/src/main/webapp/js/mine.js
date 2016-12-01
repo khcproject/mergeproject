@@ -309,7 +309,7 @@ function joinsellok(){
 };//end joinsellok()////////////
 
 function joinpubready(){
-	if(pub_chk=='N'){
+	if(pub_chk=='R'){
 		alert("현재 신청중입니다.");
 		return false;
 	}

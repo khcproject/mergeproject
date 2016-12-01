@@ -16,7 +16,18 @@
 	var memid = "${memid}";
 </script> -->
 </head>
+<script type="text/javascript">
+alert("${param.returnUrl}");
+</script>
 <body>
+
+
+<c:if test="${!empty param.returnUrl}">
+<script>
+ alert('올바른 접근이 아닙니다.');
+ location.href="mypage.do";
+ </script>
+</c:if>
 	<!-- <div class="header footer"></div> -->
 
 	<!-- 	<div class="full">  -->

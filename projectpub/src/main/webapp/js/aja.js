@@ -1,5 +1,5 @@
 $(document).ready(function(){
-		/* alert($(this).text()); */
+	
 		$('.currentPage').on('click',function(){
 			$.ajax({
 				type:'GET',
@@ -65,8 +65,13 @@ function viewMessage(data){
    		});
    	$('#rec-con').append('</table>')
 };
-/*$('#rec-con').append('<img src="\\projectpubs\\temp//'+value.p_mupload+'"style="width:212px; height:274px; " alt="사진1" /><a>Pub집 이름 : '+value.p_title+'</a></br><a>Pub집 주소 : '+value.p_address+'</a></br><a>최대인원 : '+value.p_maxpeople+'</a></br><a>별점 : 아직</a></div>');	
-*/
+/*
+ * $('#rec-con').append('<img
+ * src="\\projectpubs\\temp//'+value.p_mupload+'"style="width:212px;
+ * height:274px; " alt="사진1" /><a>Pub집 이름 : '+value.p_title+'</a></br><a>Pub집
+ * 주소 : '+value.p_address+'</a></br><a>최대인원 : '+value.p_maxpeople+'</a></br><a>별점 :
+ * 아직</a></div>');
+ */
 function viewMessage2(data){
 	var a ='';
 	for (var int = data.pv.startPage; int <= data.pv.endPage; int++) {
@@ -95,7 +100,24 @@ function viewMessage3(data){
    		});
    	$('#rec-con').append('</table>');
 }
+function star(s,a){
+	var star=Math.floor(s);// 정수
+	var star_half=Number((s-star).toFixed(1));
+	   var star_half=(s-star).toFixed(2);
+	   if(star!=0){
+	   for(var i=1;i<=star;i++){
+	      $('.'+a).append('<img src="images/star1.png" width="30px" height="30px">');
+	   }
+	   if(star_half>=0.5){
+		   alert("asdasdasd");
+	      $('.'+a).append('<img src="images/star5.png" width="30px" height="30px">');
+	   }
+	   }else{
+	      for(var i=1;i<=5;i++){
+	         $('.'+a).append('<img src="images/star0.png" width="30px" height="30px">');
+	      }
+	   }
+	}
 
-	
 
 

@@ -58,8 +58,8 @@ body {
 }
 
 .footer {
-	position: relative;
-	bottom: 0;
+	position: absolute ;
+	bottom: 0px;
 	width: 100%;
 	/* Set the fixed height of the footer here */
 	height: 100px;

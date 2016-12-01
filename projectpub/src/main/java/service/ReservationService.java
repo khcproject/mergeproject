@@ -26,6 +26,9 @@ public interface ReservationService {
 	public List<Pr_replyDTO> replyUpdateListProcess(Pr_replyDTO dto);
 
 	public StarsDTO pubStarAvgProcess(StarsDTO dto);
-	
+
 	public List<CouponDTO> couponListProcess();
+
+	public StarsDTO starChkProcess(StarsDTO ss);
+
 }
