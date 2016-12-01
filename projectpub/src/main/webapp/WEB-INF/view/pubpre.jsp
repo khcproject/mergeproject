@@ -58,47 +58,8 @@
 
 	<!-- 	<div class="full">  -->
 	
-	
 	<div class="full_sub">
-		<div class="jpsidemenu">
-				<!-- 공통 -->
-			<div class="face_and_name">
-				<img id="face_pic" src="\projectpub\temp//${mdto[0].face}" />
-				<div id="member_name">
-					<c:out value="${mdto[0].name}님" />
-				</div>
-			</div>
-			<div id="update_profile" class="common_btn">회원정보 수정</div>
-			<div id="mypage_message" class="common_btn">쪽지함</div>
-			<c:choose>
-				<c:when test="${mdto[0].userchk=='C'}">
-					<!-- 구매자 -->
-					<div id="join_sell" class="common_btn special_btn">판매자 신청</div>
-					<div id="leave" class="common_btn">회원탈퇴</div>
-				</c:when>
-				<c:when test="${mdto[0].userchk=='S'}">
-					<!--판매자 -->
-					<c:choose>
-						<c:when
-							test="${mdto[0].pub[0].p_pub_chk==null || mdto[0].pub[0].p_pub_chk=='N'}">
-							<div id="need_pub" class="common_btn special_btn">펍등록 신청</div>
-						</c:when>
-						<c:otherwise>
-							<div id="update_pub" class="common_btn special_btn">펍 수정</div>
-								<div id="reserv_list" class="common_btn special_btn">예약 리스트</div>
-						</c:otherwise>
-					</c:choose>
-					<div id="leave" class="common_btn">회원탈퇴</div>
-				</c:when>
-				<c:otherwise>
-					<!-- 관리자 -->
-					<div id="ok_sell" class="common_btn special_btn">판매자 신청현황</div>
-					<div id="ok_pub" class="common_btn special_btn">펍등록 신청현황</div>
-				</c:otherwise>
-			</c:choose>
-		</div>
-		<!-- End SideMenu -->
-
+		
 		<div class="jpmainmenu">
 
 			<div class="page-header">

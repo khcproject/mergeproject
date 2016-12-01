@@ -55,11 +55,11 @@
 				<li><a href="logout.do">로그아웃</a></li>
 				</c:when>
 				<c:when test="${mem!=null}">
-				<li><a href="mypage.do?id=cus">마이페이지</a></li>
+				<li><a href="mypage.do">마이페이지</a></li>
 				<li><a href="logout.do">로그아웃</a></li>
 				</c:when>
 				<c:otherwise>
-				<li><a href="login.do">로그인</a>a
+				<li><a href="login.do">로그인</a>
 				</c:otherwise>
 				</c:choose>
 				

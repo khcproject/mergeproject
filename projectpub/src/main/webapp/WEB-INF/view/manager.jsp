@@ -148,7 +148,7 @@
 							<td width="20%">${dto.members.name}</td>
 							<td width="35%">${dto.p_title}</td>
 							<td width="25%">
-							<a href="pubpre.do?id='${dto.id}'" target="_blank">${dto.id}미리보기</a>
+							<a href="pubpre.do?id=${dto.id}" target="_blank">${dto.id}미리보기</a>
 								<%-- <button id="pok" type="submit" value="${dto.id}">확인</button>
 								<button id="pcan" type="submit" value="${dto.id}">취소</button> --%>
 							</td>

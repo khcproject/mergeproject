@@ -204,7 +204,7 @@ CREATE TABLE Stars
 (
 	p_num number(5,0) NOT NULL,
 	id varchar2(128) NOT NULL,
-	s_stars number(10,0)
+	s_stars number(10,3)
 );
 
 

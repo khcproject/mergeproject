@@ -86,7 +86,7 @@
 					<!--판매자 -->
 					<c:choose>
 						<c:when
-							test="${mdto[0].pub[0].p_pub_chk==null || mdto[0].pub[0].p_pub_chk=='N'}">
+							test="${mdto[0].pub[0].p_pub_chk==null || mdto[0].pub[0].p_pub_chk=='N' || sellreserv[0].p_pub_chk=='R'}">
 							<div id="need_pub" class="common_btn special_btn">펍등록 신청</div>
 						</c:when>
 						<c:otherwise>

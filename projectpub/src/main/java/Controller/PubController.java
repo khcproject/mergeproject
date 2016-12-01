@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import dto.MemDTO;
 import dto.PubDTO;
 import dto.PubPageDTO;
 import dto.StarsDTO;
@@ -351,7 +352,6 @@ public class PubController {
 	
 	@RequestMapping("/pubpre.do")
 	public ModelAndView pubpre(String id){
-		System.out.println(id);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("mdto",service.pubpre(id));
 		mav.setViewName("pubpre");

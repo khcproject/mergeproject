@@ -43,12 +43,12 @@ update members set birth='1985-09-02';
 --cus2 예약 삭제 회원필요(구매자)  11/14추가
 --sell3 회원필요(등업테스트) 11/15추가
 update members set userchk='C' where id='customer';
-update members set userchk='S' where id='selltest';
+update members set userchk='S' where id='chopas1ze';
 update members set userchk='A' where id='adminadmin';
 update members set allow_chk='N' where id='cus';
 update members set allow_chk='R' where id='sell2';
 update members set allow_chk='Y' where id='selltest';
-update members set email_agree='Y' where id='adminadmin';
+update members set email_agree='Y' where id='chopas1ze';
 
 --coupon 등록
 insert into coupon values(SEQ_coupon_c_num.nextval,'selltest','c_contents','c_coupon',to_char(sysdate+20,'YYYY"년"MM"월"DD"일"'),'N');
@@ -324,3 +324,9 @@ select * from talk where t_num=7
 
 --받은 쪽지함 뷰 삭제
 delete from talk where t_num = 7
+
+
+
+select m.* , p.p_num,p.id as ppid , p.p_mupload, p.p_supload, p.p_title, p.p_contents, p.p_address, p.p_maxpeople, p.p_pub_chk,p.p_addr_post
+from members m, pub p
+where m.id=p.id(+) and m.id='chopas1ze'

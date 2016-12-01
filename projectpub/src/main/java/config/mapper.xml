@@ -156,11 +156,12 @@ where rownum<=9
 <result column="p_contents" property="p_contents"/>
 <result column="p_address" property="p_address"/>
 <result column="p_maxpeople" property="p_maxpeople"/>
+<result column="p_pub_chk" property="p_pub_chk"/>
 <result column="p_addr_post" property="p_addr_post"/>
 </collection>
 </resultMap>
 
-<select id="mempubinfo" parameterType="dto.MemDTO" resultMap="mempub">
+<select id="mempubinfo" parameterType="string" resultMap="mempub">
 select m.* , p.p_num,p.id as ppid , p.p_mupload, p.p_supload, p.p_title, p.p_contents, p.p_address, p.p_maxpeople, p.p_pub_chk,p.p_addr_post
 from members m, pub p
 where m.id=p.id(+) and m.id=#{id}
